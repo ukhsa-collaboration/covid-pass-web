@@ -1,0 +1,28 @@
+.icon-arrow-right {
+    transform: rotate(270deg);
+}
+
+.icon-arrow-left {
+    transform: rotate(90deg);
+}
+
+.icon-arrow-down {
+    transform: rotate(0);
+}
+
+.icon-arrow-up {
+    transform: rotate(180deg);
+}
+
+.external-open-link-text {
+    width: 1em;
+    display: inline;
+    position: relative;
+    top: 0.3em;
+    fill: #005eb8;
+}
+
+.app_icon {
+    height: 5em;
+    width: 5em;
+}

@@ -1,0 +1,56 @@
+.terms-and-conditions-list {
+  ol {
+    list-style-type: none;
+    counter-reset: item;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ol > li {
+    display: table;
+    counter-increment: item;
+    margin-bottom: 0.6em;
+  }
+  
+  ol > li:before {
+    content: counters(item, ".") ". ";
+    display: table-cell;
+    padding-right: 0.6em;
+  }
+  
+  li ol > li {
+    margin: 0;
+  }
+  
+  li ol > li:before {
+    content: counters(item, ".") " ";
+  }
+
+
+  &__list-item{
+    padding-bottom: 2em;
+    &__sub-item {
+      padding-top: 0.7em;
+    }
+  }
+}
+
+#privacy-notice {
+  a {
+    white-space: pre-wrap; /* CSS3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+  }
+}
+
+.nhs-table-custom-changes {
+  thead {
+    white-space: unset;
+  }
+}
+
+.table-link-word-break {
+  word-break: break-word;
+}

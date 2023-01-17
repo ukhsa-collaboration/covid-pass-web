@@ -1,0 +1,99 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.nhsuk-service-name {
+  padding-left: 0 !important;
+}
+
+.word-break {
+  word-wrap: break-word;
+}
+
+.remove-main-wrapper-top {
+  padding-top: 0 !important; 
+}
+.remove-main-wrapper-bottom {
+  padding-bottom: 0 !important; 
+}
+.no-margin {
+  margin: 0 !important;
+}
+
+.screen-reader-only-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0); 
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap; 
+  width: 1px;
+}
+
+.external-link::after {
+  content: '';
+  display: inline-block;
+  white-space: nowrap;
+  margin-left: 5px;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzAwNWViOCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xOSAxOUg1VjVoN1YzSDVjLTEuMTEgMC0yIC45LTIgMnYxNGMwIDEuMS44OSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnYtN2gtMnY3ek0xNCAzdjJoMy41OWwtOS44MyA5LjgzIDEuNDEgMS40MUwxOSA2LjQxVjEwaDJWM2gtN3oiLz48L3N2Zz4=");
+  background-repeat: no-repeat;
+  background-position: center;  
+}
+
+.bilingual-text{
+  color: #4c6272;
+  font-style: italic;
+
+  &__block {
+    display: block;
+  }
+
+  &__international-status-green, &__white-text {
+    color: #fff;
+  }
+}
+
+.font-italic {
+  font-style: italic;
+}
+
+.font-underline {
+  text-decoration: underline;
+}
+
+.survey-banner {
+  background-color:#005eb8;
+  color: white;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.survey-button{
+  width: 40% !important;
+  position: relative;
+  bottom: 0px !important;
+}
+
+.break-word-wrap {
+  overflow-wrap: break-word;
+}
+

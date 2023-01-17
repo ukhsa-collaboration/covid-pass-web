@@ -1,0 +1,163 @@
+.record-card {
+    background-color: #fff;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    &__content {
+        padding: 16px 18px;
+    }
+    &__heading {
+        font-size: 18px;
+        margin-bottom: 2px;
+    }
+    &__breaker {
+        border-color: #F0F4F5;
+        margin: 14px calc(-16*2px);
+    }
+    &__description, &__type {
+        font-size: 16px;
+        margin: 0;
+    }
+    &__type {
+        border-top: 1px solid #f0f4f5;
+        margin: -18px;
+        padding: 16px;
+        margin-top: 16px;
+    }
+    &__vaccination-expanded {
+        margin-top: 0px;
+    }
+}
+
+.results-loading-spinner-container {
+      display: flex;
+	justify-content: center;
+}
+
+.vaccination-card-heading-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    h3 {
+        width: 95%;
+    }
+}
+
+.vaccination-card-heading-container:hover {
+    h3, svg {
+        cursor: pointer;
+    }
+}
+
+.vaccination-card-heading-container:focus {
+    outline: none;
+    background-color: #ffeb3b;
+    border-bottom: 4px solid #212b32;
+}
+
+.see-more-link-container {
+    text-align: center;
+}
+
+.see-more-link-button {
+    color: #005eb8;
+}
+
+.see-more-link-button:visited {
+    @extend .see-more-link-button;
+}
+
+.vaccination-card-table {
+    .vaccination-card-info-row {
+      display: flex;
+      padding: 8px 0;
+      border-bottom: 1px solid #F0F4F5;
+
+
+      .title{
+        width: 50%;
+        padding-right: 8px;
+      }
+
+      .unit {
+        width: 50%;
+        overflow-wrap: break-word;
+      }
+    }
+    .vaccination-card-info-row:last-child { border-bottom: none; } /* Removes border for last 'row' in the table */
+}
+
+.vaccination-card-table-international {
+    &__heading {
+        text-align: center;
+    }
+}
+
+.records-counter-text{
+    color: #4c6272;
+    border-bottom: 1px solid #D9DDE0;
+    padding-bottom: 15px;
+}
+
+.form-group-filters{
+    margin-top: 16px;
+    margin-bottom: 0px;
+}
+
+.records-filter-checkbox-label{
+    box-sizing: border-box;
+}
+
+.month-divider{
+    color: #4c6272;
+    text-transform: uppercase;
+    font-weight: 600 !important;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.record-card{
+    .nhsuk-tag{
+        margin-bottom: 15px;
+    }
+}
+
+.filter-expander {
+    background-color: #fff;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    &__content {
+        padding: 13px 18px;
+    }
+    &__heading {
+        font-size: 19px;
+        margin-bottom: 0px;
+        color: #005EB8;
+    }
+}
+
+.filter-expander-heading-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    h3 {
+        width: 95%;
+        vertical-align: bottom;
+        display: table-cell
+    }
+}
+
+.filter-expander-heading-container:hover {
+    h3, svg {
+        cursor: pointer;
+    }
+}
+
+.filter-expander-heading-container:focus {
+    outline: none;
+    background-color: #ffeb3b;
+    border-bottom: 4px solid #212b32;
+    h3 {
+        color: #212b32;
+    }
+}

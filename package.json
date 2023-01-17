@@ -1,0 +1,53 @@
+{
+  "name": "covid-certificate-web",
+  "author": "NHS",
+  "description": "Covid Pass - An NHS COVID Pass shows your coronavirus (COVID-19) vaccination details or test results. This is your COVID-19 status.",
+  "keywords": [
+    "Covid Pass",
+    "Covid",
+    "COVID-19"
+  ],
+  "version": "5.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nhsx/covid-pass-web"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build:local": "env-cmd -f ./.env.local next build",
+    "export": "next export",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@microsoft/applicationinsights-web": "^2.6.1",
+    "@redux-devtools/extension": "^3.2.2",
+    "axios": "^0.27.2",
+    "bootstrap": "^4.6.0",
+    "dateformat": "^4.5.1",
+    "embla-carousel": "^4.5.1",
+    "env-cmd": "^10.1.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.37",
+    "next": "12.2.0",
+    "nhsuk-frontend": "^5.0.0",
+    "qrcode.react": "^1.0.1",
+    "react": "^17.0.2",
+    "react-cookie": "^4.0.3",
+    "react-device-detect": "^1.17.0",
+    "react-dom": "17.0.1",
+    "react-idle-timer": "^4.5.6",
+    "react-localization": "^1.0.16",
+    "react-redux": "^7.2.3",
+    "reactstrap": "^8.9.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.45.0",
+    "unload": "^2.2.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "prop-types": "^15.8.1"
+  }
+}

@@ -1,0 +1,206 @@
+.status {
+    .tick-icon,
+    .cross-icon {
+        fill: white;
+    }
+
+    color: white;
+    text-align: center;
+
+    padding: 2.5em 0;
+
+    &__main-block {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        display: block;
+        font-weight: 600;
+        margin-top: 0;
+        margin-bottom: 0;
+
+        h3 {
+            margin-top: 8px;
+            margin-bottom: 0px;
+        }
+    }
+
+    &.status-not-verified {
+        background-color: #ffb81c;
+    }
+
+    &.status-verified {
+      background-color: #0c7443;
+      color: #fff;
+    }
+}
+
+.qr-code-container {
+  margin-bottom: 32px;
+  max-width: 375px;
+  margin: 0 auto 32px auto;
+
+  .status-verified-mandatory, .status-verified-default {
+    background-color: #007f3b;
+    color: #fff;
+  }
+
+  
+
+  .status-verified-mandatory, .status-verified-voluntary {
+    &__text-container {
+        width:100%;
+        min-height:100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        h3 {
+            padding-bottom: 0;
+        }
+    }
+  }
+
+  .status-verified-default, .status-verified-mandatory {
+    svg {
+        fill:#fff;
+        margin-right: 8px;
+      }
+  }
+
+  .status-verified-voluntary {
+    background-color: #ffb81C;
+    color: #000;
+  }
+
+  .status-verified {
+    padding: 20px 26px;
+    margin-bottom: 8px;
+    
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__valid-location {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    &__valid-type {
+        font-size: 14px;
+    }
+
+    &:after {
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 200px;
+        height: 100%;
+        width: 120px;
+
+        background: -webkit-linear-gradient(to left, rgba(white, 0.085) 0%, rgba(white, 0.001) 100%);
+        background: linear-gradient(to left, rgba(white, 0.085) 0%, rgba(white, 0.001) 100%); /* Old browsers */
+        background-repeat: no-repeat;
+
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+        animation: gradientFlow 4s ease-in-out infinite;
+        -webkit-animation: gradientFlow 4s ease-in-out infinite;
+        transform: skew(-25deg);
+    }
+  }
+}
+
+/* key frame from/to is needed to be used due to 0%/100% was not working in iOS v15, along with left: %%, that reason being now a fixed px value is needed */
+@keyframes gradientFlow {
+    from {left: -300px;}
+    to {left: 400px;}
+}
+@-webkit-keyframes gradientFlow {
+    from {left: -300px;}
+    to {left: 400px;}
+}
+
+.qr-svg {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  height: 100%;
+}
+
+.qr-svg-ie {
+    width: 330px;
+    height: 330px;
+  }
+
+.status-icon {
+    vertical-align: text-top;
+}
+
+.view-your-records-btn {
+    color: #fff;
+    padding: 0.5em;
+    margin: 1em 0;
+    vertical-align: bottom;
+}
+
+.non-decoration-link-text {
+    text-decoration: none;
+    font-weight: 700;
+    &:focus {
+        color: black;
+        span,
+        svg {
+            color: black;
+            fill: black;
+        }
+    }
+}
+
+.view-records-icon {
+    fill: #fff;
+    vertical-align: middle;
+}
+
+.card-link-icon {
+    vertical-align: bottom;
+    fill: #005eb8;
+}
+
+.status-no-records {
+    color: black;
+    text-align: center;
+}
+
+.hover-text-container:hover {
+    color: #7c2855;
+    svg {
+        fill: #7c2855;
+    }
+}
+
+@media all and (min-width: 401px) {
+    .status-card__content {
+        padding: 0.8em 1em !important;
+    }
+}
+
+@media all and (max-width: 400px) {
+    .status-card__content {
+        padding: 0.5em 1em !important;
+    }
+    .status-card__content-no-side-padding {
+        padding: 0.5em 0.1em !important;
+    }
+}
+
+.pdf-share-expand-button,
+.status-card-expander-icon {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+}
+

@@ -1,0 +1,112 @@
+.logout-button {
+    float: right;
+}
+
+.nhsuk-login-button {
+    cursor: pointer;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none; // disables the ability to save the image on mobile
+    width: 100%;
+    max-width: 380px;
+    padding: 0;
+    border: 0;
+}
+
+.nhsuk-login-button:focus {
+    outline: none !important;
+    outline-offset: none !important;
+}
+
+@media all and (max-width: 400px) {
+    .nhsuk-login-button {
+      max-width: 320px;
+    }
+  }
+
+  @media all and (max-width: 768px) {
+    .manage-nhs-settings-button {
+      margin-bottom: 16px!important;
+    }
+  }
+
+@media all and (max-width: 320px) {
+    .nhsuk-login-button {
+      max-width: 280px;
+    }
+  }
+
+.nhs-close-button {
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    background-color: 	#f0f4f5;
+}
+  
+.nhs-close-button:focus {
+    outline: none !important;
+    outline-offset: none !important;
+} 
+
+.nhsuk-login-button-non-focus {
+  .cls-1{
+    fill: #003087;
+  }
+  .cls-2 {
+    fill: #005eb8;
+  }
+  .cls-3 {
+    fill: #fff;
+  }
+}
+
+.nhsuk-login-button-focus {
+  .cls-1{
+    fill:#212b32;
+  }
+  .cls-2{
+    fill:#ffeb3b;
+  }
+  .cls-3{
+    fill:#212b32;
+  }
+}
+
+.apple-wallet-button {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  svg {
+    margin-bottom: 8px;
+    width: 100%;
+    max-width: 180px;
+  }
+}
+
+.google-pay-button {
+  padding: 0;
+  margin: 8px 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  svg {
+    margin-top: 0;
+    width: 100%;
+  }
+}
+
+.apple-wallet-button:focus, .google-pay-button:focus {
+  outline-offset: none !important;
+  outline: none;
+  background-color: #ffeb3b;
+  border-bottom: 4px solid #212b32;
+}
+
+.manage-nhs-login-click-container:focus {
+  outline: none;
+  button {
+    color: black;
+    background-color: #ffeb3b;
+  }
+}

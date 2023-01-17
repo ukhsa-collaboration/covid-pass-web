@@ -1,0 +1,80 @@
+$spinner-color: #357C42;
+$spinner-color-border: #E5E5E5;
+
+.button-spinner-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: self-start;
+}
+
+.initiate-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-box {
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@mixin styling($spinner-size) {
+  &.loading {
+    display: none;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $spinner-size;
+    height: $spinner-size;
+    position: relative;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 100%;
+    &:before {
+      content: "";
+      height: $spinner-size;
+      width: $spinner-size;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-width: 6px;
+      border-style: solid;
+      border-color: $spinner-color $spinner-color-border $spinner-color-border;
+      border-radius: 100%;
+      animation: rotation .7s infinite linear;
+    }
+    p {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+.small {
+  @include styling($spinner-size: 70px);
+  p { font-size: 10px; }
+}
+
+.medium {
+  @include styling($spinner-size: 110px);
+}
+
+.large {
+  @include styling($spinner-size: 135px);
+}

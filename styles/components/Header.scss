@@ -1,0 +1,159 @@
+$menu-margin: 24px;
+
+@media (min-width: 61.875em) {
+    .nhsuk-header__menu-toggle {
+        display: inline;
+        margin-inline: 1em;
+    }
+}
+
+@media (min-width: 372px) {
+    .nhsuk-header {
+        &__menu {
+            height: 100%;
+            
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+.nhsuk-header {
+    &__menu-toggle {
+        right: 0;
+    }
+
+    &__logo--letter-service-custom {
+        height: 32px;
+    }
+
+    &__transactional-service-name--letter-service-custom:hover {
+        text-decoration: none;
+    }
+    &__transactional-service-name--letter-service-custom:active {
+        color:#fff;
+    }
+
+    .nhsuk-header-overlay {
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        background-color: #f0f4f5;
+        z-index: 1;
+        top: -100%;
+        transition: all .3s ease-in-out;
+        border-bottom: 1px solid #E3E3E4;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        @media all and (max-width: 768px) {
+            height: 100%;
+            overflow-y: scroll;
+        }
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        &.active {
+            top: 0%;
+        }
+        &__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding:  #{$menu-margin/1.5} $menu-margin;
+            border-bottom: 1px solid #E3E3E4;
+            .header-title {
+                font-size: 16px;
+                font-weight: bold;
+                color: #030303;
+            }
+            .nhs-close-button {
+                cursor: pointer;
+                 &:focus {
+                       background-color: #ffeb3b;
+                       border-bottom: 4px solid #212b32;
+                 } 
+            }   
+                         
+                                                          
+        }
+        &__content {
+            padding: #{$menu-margin/2} $menu-margin $menu-margin $menu-margin;
+            .user-info {
+                .info-box {
+                    &:first-child { margin: 0; }
+                    p { margin: 0; }
+                    .info-header { font-weight: bold; }
+                    .info-point {
+                        margin-bottom: 8px;
+                        font-size: 16px;
+                        &.title { font-size: 21px; font-weight: bold;  }
+                    }
+                }
+            }
+        }
+        &__footer {
+            padding: 16px 0 0 0;
+            button { margin: 0; width: 100%; }
+        }
+    }
+}
+
+.header-custom-button-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    div {
+        button { 
+            margin: 0 16px;
+            float: right;
+        }
+    }
+}
+
+@media (max-width: 990px) {
+    .header-custom-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        .header-custom-title-container {
+            flex: 0 0 35%;
+            .nhsuk-header__transactional-service-name {
+                padding-left:0;
+            }
+        }
+        .header-custom-button-container {
+            flex: 0 0 65%;
+            justify-content: flex-end;
+            div {
+                button { margin: 4px 8px;}
+            }
+        }
+    }
+}
+
+@media (max-width: 350px) {
+    .header-custom-container {
+        .header-custom-title-container {
+            flex: 0 0 30%;
+           
+        }
+    }
+}
+
+.provider-banner {
+    width: 100%;
+    background-color: #d8dde0;
+    h3{ 
+        padding-top:0.6em;
+        padding-bottom:0.2em;
+        margin: 0;
+    }
+    hr{
+        margin: 0;
+    }
+}
