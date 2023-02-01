@@ -13,33 +13,30 @@ import { isMobileOnly, isTablet } from 'react-device-detect'
 import { getLanguage } from 'helpers/userHelper'
 import {
     CACHE_TEST_RESULTS,
-    REMOVE_ALL_REDUX,
     CACHE_VACCINATION_RESULTS,
     CACHE_EXEMPTION_RESULTS
 } from 'actions/types'
 import { recordsPageStrings } from 'localization/translations'
-import { TIMEOUT_ERROR, DETAILS, ERROR_500, SESSION_EXPIRED, SESSION_ENDED } from 'constants/routes'
+import { TIMEOUT_ERROR, DETAILS, ERROR_500, SESSION_EXPIRED } from 'constants/routes'
 import { useRouter } from 'next/router'
 import { removeSlashFromRoute } from 'helpers/index'
 import { checkCacheUnixTime } from 'helpers/auth'
-import {
-    getUserToken,
-    getUserTokenId,
-    getUserTokenIdUnixExpiry,
-    removeUserCookie
-} from 'helpers/cookieHelper'
+import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import FilterExpander from 'components/Results/FilterExpander'
 import MonthDivider from 'components/Results/MonthDivider'
 import { mostRecentResultInMonth } from 'helpers/resultHelper'
 import { uuidCookieReduxNotMatching } from 'helpers/auth'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const Results = ({ showTestResults, showVaccinationResults, showExemptionResults }) => {
+    const router = useRouter()
+    const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
+
     const user = useSelector((state) => state.userReducer.user)
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
-    const router = useRouter()
     const [resultsData, setResultsData] = React.useState([])
     const [resultsTestData, setTestResultsData] = React.useState({
         api: false,
@@ -77,9 +74,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
     useEffect(() => {
         if (getUserToken(cookies)) {
             if (uuidCookieReduxNotMatching(cookies, user)) {
-                router.push(SESSION_ENDED).then(() => {
-                    dispatch({ type: REMOVE_ALL_REDUX })
-                })
+                mismatchedUuidEndSession()
                 return
             }
 
@@ -99,10 +94,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                     if (checkCacheUnixTime(getUserTokenIdUnixExpiry(cookies))) {
                         fetchTestResults()
                     } else {
-                        router.push(SESSION_EXPIRED).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(SESSION_EXPIRED)
                         trackEvent('Results Vaccination - Id token session expired')
                     }
                 }
@@ -130,10 +122,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                     if (checkCacheUnixTime(getUserTokenIdUnixExpiry(cookies))) {
                         fetchVaccinationResults()
                     } else {
-                        router.push(SESSION_EXPIRED).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(SESSION_EXPIRED)
                         trackEvent('Results Vaccination - Id token session expired')
                     }
                 }
@@ -160,10 +149,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                     if (checkCacheUnixTime(getUserTokenIdUnixExpiry(cookies))) {
                         fetchExemptions()
                     } else {
-                        router.push(SESSION_EXPIRED).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(SESSION_EXPIRED)
                         trackEvent('Results Exemptions - Id token session expired')
                     }
                 }
@@ -255,10 +241,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
         } catch (err) {
             switch (err?.response?.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
                     break
                 case nhsStatusCodes.RequestTimeout:
                     router.push(TIMEOUT_ERROR)
@@ -309,10 +292,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
         } catch (err) {
             switch (err.response.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
                     break
                 case nhsStatusCodes.RequestTimeout:
                     router.push(TIMEOUT_ERROR)
@@ -356,10 +336,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
         } catch (err) {
             switch (err?.response?.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
                     break
                 case nhsStatusCodes.RequestTimeout:
                     router.push(TIMEOUT_ERROR)
@@ -427,10 +404,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
     }
 
     const pushToFiveHundredPage = () => {
-        router.push(ERROR_500 + '?page=' + removeSlashFromRoute(DETAILS)).then(() => {
-            removeUserCookie(setCookie)
-            dispatch({ type: REMOVE_ALL_REDUX })
-        })
+        routeThenEndSession(ERROR_500 + '?page=' + removeSlashFromRoute(DETAILS))
     }
 
     const filters = () => {

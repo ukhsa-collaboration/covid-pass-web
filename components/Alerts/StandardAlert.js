@@ -1,27 +1,21 @@
 import React from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import PrimaryButton from 'components/buttons/PrimaryButton'
-import { useDispatch } from 'react-redux'
 import { trackEvent } from 'helpers/appInsights'
 import { isNhsAppNative } from 'helpers/isNhsApp'
 import { gotoHomepage } from 'helpers/isNhsApp'
-import { REMOVE_ALL_REDUX } from 'actions/types'
 import PropTypes from 'prop-types'
-import { removeUserCookie } from 'helpers/cookieHelper'
-import { useCookies } from 'react-cookie'
-import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const StandardAlert = ({ headerText, bodyText, buttonText, openState, setState }) => {
-    const dispatch = useDispatch()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const { endSession } = useEndUserSession()
 
     const onClickOk = () => {
         if (isNhsAppNative()) {
             gotoHomepage()
         } else {
             setState(false)
-            removeUserCookie(setCookie)
-            dispatch({ type: REMOVE_ALL_REDUX })
+            endSession()
         }
         trackEvent('Timeout Alert - Confirm logout')
     }

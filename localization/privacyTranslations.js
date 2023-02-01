@@ -872,7 +872,7 @@ const strings_en = {
     },
     changeToThisPn: {
         boldText1: 'Changes to this Privacy Notice: ',
-        text1: 'We keep our Privacy Notice under regular review. This Privacy Notice was last updated on 24th November 2022.'
+        text1: 'We keep our Privacy Notice under regular review. This Privacy Notice was last updated on 12th January 2023.'
     }
 }
 
@@ -1659,7 +1659,7 @@ const strings_cy = {
     },
     userSatisfactionSurvey: {
         title: 'Arolwg Boddhad Defnyddwyr ',
-        text1: "Bydd NHSBSA yn cynnal arolwg boddhad defnyddwyr dewisol ar ran gwasanaeth Pàs COVID y GIG. Mae'r arolwg yn gofyn cwestiynau am eich profiad o'r gwasanaeth a gawsoch wrth sicrhau’ch Pàs Teithio COVID GIG. Bydd eich adborth yn cael ei ddadansoddi i adolygu’n gwasanaethau a sbarduno gwelliannau. Bydd integreiddio adborth y cwsmeriaid yn y broses gyflenwi yn helpu i wella'r gwasanaeth drwy ganolbwyntio ar y canlynol:",
+        text1: "Bydd Awdurdod Gwasanaethau Busnes y GIG (NHS Business Services Authority) yn cynnal arolwg boddhad defnyddwyr dewisol ar ran gwasanaeth Pàs COVID y GIG. Mae'r arolwg yn gofyn cwestiynau am eich profiad o'r gwasanaeth a gawsoch wrth sicrhau’ch Pàs Teithio COVID GIG. Bydd eich adborth yn cael ei ddadansoddi i adolygu’n gwasanaethau a sbarduno gwelliannau. Bydd integreiddio adborth y cwsmeriaid yn y broses gyflenwi yn helpu i wella'r gwasanaeth drwy ganolbwyntio ar y canlynol:",
         list1: {
             item1: 'Sut mae’r defnyddwyr yn teimlo am y gwasanaeth y maen nhw’n ei gael',
             item2: "Pa mor fodlon yw’r defnyddwyr ar rwyddineb dod o hyd i'r wybodaeth gywir sydd ei hangen arnyn nhw",
@@ -1752,7 +1752,7 @@ const strings_cy = {
     },
     changeToThisPn: {
         boldText1: "Newidiadau i'r Hysbysiad Preifatrwydd hwn: ",
-        text1: 'Rydym yn cadw’n Hysbysiad Preifatrwydd dan adolygiad rheolaidd. Diweddarwyd yr Hysbysiad Preifatrwydd hwn y tro diwethaf ar 24ain Tachwed 2022.'
+        text1: 'Rydym yn cadw’n Hysbysiad Preifatrwydd dan adolygiad rheolaidd. Diweddarwyd yr Hysbysiad Preifatrwydd hwn y tro diwethaf ar 12ain Ionawr 2023.'
     }
 }
 

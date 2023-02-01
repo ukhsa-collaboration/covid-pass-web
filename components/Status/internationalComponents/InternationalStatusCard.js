@@ -1,21 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { getName, getDateFormattedDOB, getLanguage } from 'helpers/userHelper'
 import TickIcon from 'components/icons/TickIcon'
 import { useRouter } from 'next/router'
-import { DETAILS, SESSION_ENDED } from 'constants/routes'
+import { DETAILS } from 'constants/routes'
 import ArrowIcon from 'components/icons/ArrowIcon'
 import { trackEvent } from 'helpers/appInsights'
 import { statusCardStrings } from 'localization/translations'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY, LANGUAGE_CODES } from 'constants/index'
-import { REMOVE_ALL_REDUX } from 'actions/types'
 import { uuidCookieReduxNotMatching } from 'helpers/auth'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const StatusCard = ({ certificateStatus }) => {
-    const dispatch = useDispatch()
     const router = useRouter()
+    const { mismatchedUuidEndSession } = useEndUserSession()
+
     const user = useSelector((state) => state.userReducer.user)
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
 
@@ -24,9 +25,7 @@ const StatusCard = ({ certificateStatus }) => {
     const viewYourRecords = (event) => {
         event.preventDefault()
         if (uuidCookieReduxNotMatching(cookies, user)) {
-            router.push(SESSION_ENDED).then(() => {
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            mismatchedUuidEndSession()
             return
         }
 

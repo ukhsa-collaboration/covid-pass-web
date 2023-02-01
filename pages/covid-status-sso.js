@@ -130,6 +130,7 @@ const CovidStatusSSO = () => {
                 trackEvent('Covid Status SSO - Successfully Obtained CovidPass Access Token')
             } catch (err) {
                 switch (err?.response?.status) {
+                    case nhsStatusCodes.RequestTimeout:
                     case nhsStatusCodes.WrongRequest:
                     case nhsStatusCodes.AuthTokenIncorrect:
                     case nhsStatusCodes.ServerError:
@@ -212,6 +213,7 @@ const CovidStatusSSO = () => {
                             dispatch({ type: REMOVE_TMP_TOKEN_INFO })
                         })
                     break
+                case nhsStatusCodes.RequestTimeout:
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
                 default:
@@ -254,6 +256,7 @@ const CovidStatusSSO = () => {
             setLoadingDomesticFeatureToggle(false)
 
             switch (err?.response?.status) {
+                case nhsStatusCodes.RequestTimeout:
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.AuthTokenIncorrect:
                 case nhsStatusCodes.ServerError:
@@ -301,6 +304,7 @@ const CovidStatusSSO = () => {
             }
         } catch (err) {
             switch (err?.response?.status) {
+                case nhsStatusCodes.RequestTimeout:
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.AuthTokenIncorrect:
                 case nhsStatusCodes.ServerError:

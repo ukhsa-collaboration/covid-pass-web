@@ -7,7 +7,6 @@ import nhsStatusCodes from 'api/nhsStatusCodes'
 import { pdfDirectDownload, GetInternationalPDF } from 'actions/userActions'
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner'
 import {
-    REMOVE_ALL_REDUX,
     CACHE_INTERNATIONAL_CERTIFICATE_PDF_BLOB_EN,
     CACHE_INTERNATIONAL_CERTIFICATE_PDF_BLOB_CY,
     CACHE_DOMESTIC_CERTIFICATE_PDF_BLOB_EN,
@@ -15,7 +14,7 @@ import {
     CACHE_PDF_DOMESTIC_DOWNLOAD_LIMIT_EXPIRY,
     CACHE_PDF_INTERNATIONAL_DOWNLOAD_LIMIT_EXPIRY
 } from 'actions/types'
-import { ERROR_500, SESSION_EXPIRED, SESSION_ENDED } from 'constants/routes'
+import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { isNhsAppNative, nhsAppDownloadFromBytes } from 'helpers/isNhsApp'
 import DownloadIcon from 'components/icons/DownloadIcon'
 import { checkCacheUnixTime } from 'helpers/auth'
@@ -23,8 +22,7 @@ import {
     getUserToken,
     getUserTokenId,
     getUserTokenIdUnixExpiry,
-    getUserPreferenceSelectedFlow,
-    removeUserCookie
+    getUserPreferenceSelectedFlow
 } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY, LANGUAGE_CODES } from 'constants/index'
@@ -32,14 +30,17 @@ import { pdfCertificateGenerationPageStrings } from 'localization/translations'
 import { getLanguage } from 'helpers/userHelper'
 import { certificateTypeToText } from 'helpers/certificateHelper'
 import { uuidCookieReduxNotMatching } from 'helpers/auth'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const PdfCertificateGeneration = () => {
+    const router = useRouter()
+    const dispatch = useDispatch()
+    const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
+
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const [loading, setLoading] = React.useState(false)
-    const dispatch = useDispatch()
-    const router = useRouter()
     const [spamError, setSpamError] = React.useState({
         showError: false,
         errorMessage: ''
@@ -50,9 +51,7 @@ const PdfCertificateGeneration = () => {
 
     const fetchPdf = () => {
         if (uuidCookieReduxNotMatching(cookies, user)) {
-            router.push(SESSION_ENDED).then(() => {
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            mismatchedUuidEndSession()
             return
         }
 
@@ -112,10 +111,7 @@ const PdfCertificateGeneration = () => {
                     } catch (err) {
                         switch (err?.response?.status) {
                             case nhsStatusCodes.AuthTokenIncorrect:
-                                router.push(SESSION_EXPIRED).then(() => {
-                                    removeUserCookie(setCookie)
-                                    dispatch({ type: REMOVE_ALL_REDUX })
-                                })
+                                routeThenEndSession(SESSION_EXPIRED)
                                 break
                             case nhsStatusCodes.ShareCodeLimitReached:
                                 dispatch({
@@ -125,24 +121,21 @@ const PdfCertificateGeneration = () => {
                                         parseInt(err.response.headers['retry-after'])
                                 })
                                 break
+                            case nhsStatusCodes.RequestTimeout:
+                                router.push(TIMEOUT_ERROR)
+                                break
                             case nhsStatusCodes.WrongRequest:
                             case nhsStatusCodes.ServerError:
                             case nhsStatusCodes.wafErrorError:
                             default:
-                                router.push(ERROR_500).then(() => {
-                                    removeUserCookie(setCookie)
-                                    dispatch({ type: REMOVE_ALL_REDUX })
-                                })
+                                routeThenEndSession(ERROR_500)
                                 break
                         }
                         trackError('API - Certificate International PDF Download', err)
                         setLoading(false)
                     }
                 } else {
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
                     trackEvent('PDF Download - Id token session expired')
                 }
             }
@@ -192,10 +185,7 @@ const PdfCertificateGeneration = () => {
                     } catch (err) {
                         switch (err?.response?.status) {
                             case nhsStatusCodes.AuthTokenIncorrect:
-                                router.push(SESSION_EXPIRED).then(() => {
-                                    removeUserCookie(setCookie)
-                                    dispatch({ type: REMOVE_ALL_REDUX })
-                                })
+                                routeThenEndSession(SESSION_EXPIRED)
                                 break
                             case nhsStatusCodes.ShareCodeLimitReached:
                                 dispatch({
@@ -205,24 +195,21 @@ const PdfCertificateGeneration = () => {
                                         parseInt(err.response.headers['retry-after'])
                                 })
                                 break
+                            case nhsStatusCodes.RequestTimeout:
+                                router.push(TIMEOUT_ERROR)
+                                break
                             case nhsStatusCodes.WrongRequest:
                             case nhsStatusCodes.ServerError:
                             case nhsStatusCodes.wafErrorError:
                             default:
-                                router.push(ERROR_500).then(() => {
-                                    removeUserCookie(setCookie)
-                                    dispatch({ type: REMOVE_ALL_REDUX })
-                                })
+                                routeThenEndSession(ERROR_500)
                                 break
                         }
                         trackError('API - Certificate Domestic PDF Download', err)
                         setLoading(false)
                     }
                 } else {
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
                     trackEvent('PDF Download - Id token session expired')
                 }
             }

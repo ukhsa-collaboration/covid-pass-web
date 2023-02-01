@@ -6,22 +6,19 @@ import { trackEvent } from 'helpers/appInsights'
 import nhsStatusCodes from 'api/nhsStatusCodes'
 import { isNhsAppNative, goToNhsUplift } from 'helpers/isNhsApp'
 import { upliftUrl, checkCacheUnixTime } from 'helpers/auth'
-import { ERROR_500, SESSION_EXPIRED, SESSION_ENDED } from 'constants/routes'
+import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { FetchAssertedLoginIdentity } from 'actions/userActions'
-import { REMOVE_ALL_REDUX } from 'actions/types'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
-import {
-    getUserToken,
-    getUserTokenId,
-    getUserTokenIdUnixExpiry,
-    removeUserCookie
-} from 'helpers/cookieHelper'
+import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
 import { uuidCookieReduxNotMatching } from 'helpers/auth'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const Uplift = ({ elements, page }) => {
     const dispatch = useDispatch()
     const router = useRouter()
+    const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
+
     const user = useSelector((state) => state.userReducer.user)
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
 
@@ -37,9 +34,7 @@ const Uplift = ({ elements, page }) => {
 
     const uppLiftStandalone = async () => {
         if (uuidCookieReduxNotMatching(cookies, user)) {
-            router.push(SESSION_ENDED).then(() => {
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            mismatchedUuidEndSession()
             return
         }
 
@@ -60,27 +55,21 @@ const Uplift = ({ elements, page }) => {
             } catch (err) {
                 switch (err?.response?.status) {
                     case nhsStatusCodes.AuthTokenIncorrect:
-                        router.push(SESSION_EXPIRED).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(SESSION_EXPIRED)
+                        break
+                    case nhsStatusCodes.RequestTimeout:
+                        router.push(TIMEOUT_ERROR)
                         break
                     case nhsStatusCodes.WrongRequest:
                     case nhsStatusCodes.ServerError:
                     case nhsStatusCodes.wafErrorError:
                     default:
-                        router.push(ERROR_500).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(ERROR_500)
                         break
                 }
             }
         } else {
-            router.push(SESSION_EXPIRED).then(() => {
-                removeUserCookie(setCookie)
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            routeThenEndSession(SESSION_EXPIRED)
             trackEvent('uplift - Id token session expired')
         }
     }

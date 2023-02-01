@@ -1,4 +1,5 @@
 import axios from 'axios'
+const timeoutLimit = 60000
 
 const API = (token = null, tokenId = null) => {
     let headers = {
@@ -20,6 +21,7 @@ const API = (token = null, tokenId = null) => {
 
     const API = axios.create({
         baseURL: url,
+        timeout: timeoutLimit,
         headers
     })
 

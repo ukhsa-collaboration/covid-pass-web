@@ -5,18 +5,17 @@ import { sendCertificate, sendInternationalEmail } from 'actions/userActions'
 import { trackEvent, trackError } from 'helpers/appInsights'
 import { emailValid } from 'helpers/validations'
 import { shareByEmailGenerationPageStrings } from 'localization/translations'
-import { REMOVE_ALL_REDUX, EMAIL_LIMIT } from 'actions/types'
+import { EMAIL_LIMIT } from 'actions/types'
 import EmailIcon from 'components/icons/EmailIcon'
 import ArrowIcon from 'components/icons/ArrowIcon'
 import { useRouter } from 'next/router'
-import { COVID_STATUS, ERROR_500, SESSION_EXPIRED, SESSION_ENDED } from 'constants/routes'
+import { COVID_STATUS, ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { removeSlashFromRoute } from 'helpers/index'
 import {
     getUserToken,
     getUserTokenId,
     getUserTokenIdUnixExpiry,
-    getUserPreferenceSelectedFlow,
-    removeUserCookie
+    getUserPreferenceSelectedFlow
 } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY, LANGUAGE_CODES } from 'constants/index'
@@ -26,10 +25,13 @@ import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner'
 import { getLanguage } from 'helpers/userHelper'
 import { certificateTypeToText } from 'helpers/certificateHelper'
 import { uuidCookieReduxNotMatching } from 'helpers/auth'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const ShareByEmailGeneration = () => {
     const router = useRouter()
     const dispatch = useDispatch()
+    const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
+
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
@@ -78,9 +80,7 @@ const ShareByEmailGeneration = () => {
         })
 
         if (uuidCookieReduxNotMatching(cookies, user)) {
-            router.push(SESSION_ENDED).then(() => {
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            mismatchedUuidEndSession()
             return
         }
 
@@ -181,21 +181,18 @@ const ShareByEmailGeneration = () => {
 
                         break
                     case nhsStatusCodes.AuthTokenIncorrect:
-                        router.push(SESSION_EXPIRED).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(SESSION_EXPIRED)
+                        break
+                    case nhsStatusCodes.RequestTimeout:
+                        router.push(TIMEOUT_ERROR)
                         break
                     case nhsStatusCodes.WrongRequest:
                     case nhsStatusCodes.ServerError:
                     case nhsStatusCodes.wafErrorError:
                     default:
-                        router
-                            .push(ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS))
-                            .then(() => {
-                                removeUserCookie(setCookie)
-                                dispatch({ type: REMOVE_ALL_REDUX })
-                            })
+                        routeThenEndSession(
+                            ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS)
+                        )
 
                         break
                 }
@@ -203,10 +200,7 @@ const ShareByEmailGeneration = () => {
                 trackError('API - Certificate Share', err)
             }
         } else {
-            router.push(SESSION_EXPIRED).then(() => {
-                removeUserCookie(setCookie)
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            routeThenEndSession(SESSION_EXPIRED)
             trackEvent('Status - Id token session expired')
         }
     }

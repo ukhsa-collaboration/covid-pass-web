@@ -1,4 +1,4 @@
-export const RELEASE_VERSION = '5.5.0'
+export const RELEASE_VERSION = '5.6.0'
 export const NHS_LOGIN_CONSENT_NOT_GIVEN = 'ConsentNotGiven'
 export const COOKIE_USER_TOKEN_KEY = 'covidStatus'
 export const COOKIE_USER_PREFERENCE_KEY = 'covidStatusUserPreference'

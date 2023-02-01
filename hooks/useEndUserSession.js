@@ -4,7 +4,7 @@ import { removeUserCookie } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import { REMOVE_ALL_REDUX } from 'actions/types'
-import { INDEX_PAGE } from 'constants/routes'
+import { INDEX_PAGE, SESSION_ENDED } from 'constants/routes'
 
 const useEndUserSession = () => {
     const router = useRouter()
@@ -15,12 +15,18 @@ const useEndUserSession = () => {
         router.push(pageRoute).then(() => endSession())
     }
 
+    const mismatchedUuidEndSession = () => {
+        router.push(SESSION_ENDED).then(() => {
+            dispatch({ type: REMOVE_ALL_REDUX })
+        })
+    }
+
     const endSession = () => {
         removeUserCookie(setCookie)
         dispatch({ type: REMOVE_ALL_REDUX })
     }
 
-    return { routeThenEndSession, endSession }
+    return { routeThenEndSession, endSession, mismatchedUuidEndSession }
 }
 
 export default useEndUserSession

@@ -6,27 +6,45 @@ import nhsStatusCodes from '../api/nhsStatusCodes'
  * Authenticate Endpoints
  */
 export const validateNHSCode = (code, redirectUri) => async () => {
-    const res = await API().post('/auth/Token?code=' + code + '&redirectUri=' + redirectUri)
+    const res = await API()
+        .post('/auth/Token?code=' + code + '&redirectUri=' + redirectUri)
+        .catch((error) => {
+            handleError(error)
+        })
+
     return res
 }
 
 export const ssoLogin = (assertedLoginIdentity, redirectUri) => async () => {
     const url = getSSOUrl(assertedLoginIdentity, redirectUri)
-    const res = await API().get(url)
+    const res = await API()
+        .get(url)
+        .catch((error) => {
+            handleError(error)
+        })
     return res
 }
 
 export const reauthenticate = (refreshToken) => async () => {
-    const res = await API().post('/auth/Token/Refresh', null, {
-        headers: {
-            refreshToken: refreshToken
-        }
-    })
+    const res = await API()
+        .post('/auth/Token/Refresh', null, {
+            headers: {
+                refreshToken: refreshToken
+            }
+        })
+        .catch((error) => {
+            handleError(error)
+        })
+
     return res
 }
 
 export const FetchAssertedLoginIdentity = (token, tokenId) => async () => {
-    const res = await API(token, tokenId).get('/auth/FetchAssertedLoginIdentity')
+    const res = await API(token, tokenId)
+        .get('/auth/FetchAssertedLoginIdentity')
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
@@ -36,7 +54,11 @@ export const FetchAssertedLoginIdentity = (token, tokenId) => async () => {
  */
 
 export const getUserConfiguration = (token, tokenId) => async () => {
-    const res = await API(token, tokenId).get('/auth/UserConfiguration')
+    const res = await API(token, tokenId)
+        .get('/auth/UserConfiguration')
+        .catch((error) => {
+            handleError(error)
+        })
 
     if (res?.data?.userInfo?.given_name)
         res.data.userInfo.given_name = res.data.userInfo.given_name.trim()
@@ -48,17 +70,25 @@ export const getUserConfiguration = (token, tokenId) => async () => {
 }
 
 export const updateTCAcceptance = (token, tokenId) => async () => {
-    const res = await API(token, tokenId).post('/auth/UpdateTCAcceptance')
+    const res = await API(token, tokenId)
+        .post('/auth/UpdateTCAcceptance')
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
 
 export const updateLanguageCode = (token, tokenId, languageCode) => async () => {
-    const res = await API(token, tokenId).post('/auth/UpdateLanguageCode', null, {
-        headers: {
-            LanguageCode: languageCode
-        }
-    })
+    const res = await API(token, tokenId)
+        .post('/auth/UpdateLanguageCode', null, {
+            headers: {
+                LanguageCode: languageCode
+            }
+        })
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
@@ -67,35 +97,47 @@ export const updateLanguageCode = (token, tokenId, languageCode) => async () => 
  * Domestic Scenarios Endpoints
  */
 export const getCertificate = (token, tokenId) => async () => {
-    const res = await API(token, tokenId).get('/GetCertificate')
+    const res = await API(token, tokenId)
+        .get('/GetCertificate')
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
 
 export const sendCertificate = (token, tokenId, email, language) => async () => {
-    const res = await API(token, tokenId).post(
-        '/SendCertificate',
-        {
-            Email: email
-        },
-        {
-            headers: {
-                'Content-Language': language
+    const res = await API(token, tokenId)
+        .post(
+            '/SendCertificate',
+            {
+                Email: email
+            },
+            {
+                headers: {
+                    'Content-Language': language
+                }
             }
-        }
-    )
+        )
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
 
 export const pdfDirectDownload = (token, tokenId, language) => async () => {
-    const res = await API(token, tokenId).get('/PdfDirectDownload', {
-        responseType: 'arraybuffer',
-        headers: {
-            Accept: 'application/pdf',
-            'Content-Language': language
-        }
-    })
+    const res = await API(token, tokenId)
+        .get('/PdfDirectDownload', {
+            responseType: 'arraybuffer',
+            headers: {
+                Accept: 'application/pdf',
+                'Content-Language': language
+            }
+        })
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
@@ -104,35 +146,46 @@ export const pdfDirectDownload = (token, tokenId, language) => async () => {
  * International Scenarios Endpoints
  */
 export const getInternationalQR = (token, tokenId) => async () => {
-    const res = await API(token, tokenId).get('/international/GetInternationalQR')
-
+    const res = await API(token, tokenId)
+        .get('/international/GetInternationalQR')
+        .catch((error) => {
+            handleError(error)
+        })
     return res
 }
 
 export const GetInternationalPDF = (token, tokenId, language) => async () => {
-    const res = await API(token, tokenId).get('/international/GetInternationalPDF', {
-        responseType: 'arraybuffer',
-        headers: {
-            Accept: 'application/pdf',
-            'Content-Language': language
-        }
-    })
+    const res = await API(token, tokenId)
+        .get('/international/GetInternationalPDF', {
+            responseType: 'arraybuffer',
+            headers: {
+                Accept: 'application/pdf',
+                'Content-Language': language
+            }
+        })
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
 
 export const sendInternationalEmail = (token, tokenId, email, language) => async () => {
-    const res = await API(token, tokenId).post(
-        '/international/SendInternationalEmail',
-        {
-            Email: email
-        },
-        {
-            headers: {
-                'Content-Language': language
+    const res = await API(token, tokenId)
+        .post(
+            '/international/SendInternationalEmail',
+            {
+                Email: email
+            },
+            {
+                headers: {
+                    'Content-Language': language
+                }
             }
-        }
-    )
+        )
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
@@ -142,13 +195,11 @@ export const sendInternationalEmail = (token, tokenId, email, language) => async
  */
 export const getTestResults = (token, tokenId) => async () => {
     const res = await API(token, tokenId)
-        .get('/GetTestResults', { headers: { Authorization: 'Bearer ' + token }, timeout: 60000 })
+        .get('/GetTestResults', {
+            headers: { Authorization: 'Bearer ' + token }
+        })
         .catch((error) => {
-            if (error.code === 'ECONNABORTED') {
-                throw { response: { status: nhsStatusCodes.RequestTimeout } }
-            } else {
-                throw error
-            }
+            handleError(error)
         })
     return res
 }
@@ -156,15 +207,10 @@ export const getTestResults = (token, tokenId) => async () => {
 export const getMedicalExemptions = (token, tokenId) => async () => {
     const res = await API(token, tokenId)
         .get('/GetMedicalExemptions', {
-            headers: { Authorization: 'Bearer ' + token },
-            timeout: 60000
+            headers: { Authorization: 'Bearer ' + token }
         })
         .catch((error) => {
-            if (error.code === 'ECONNABORTED') {
-                throw { response: { status: nhsStatusCodes.RequestTimeout } }
-            } else {
-                throw error
-            }
+            handleError(error)
         })
 
     return res
@@ -172,13 +218,9 @@ export const getMedicalExemptions = (token, tokenId) => async () => {
 
 export const getVaccinationResults = (token, tokenId) => async () => {
     const res = await API(token, tokenId)
-        .get('/GetVaccinationResults', { timeout: 60000 })
+        .get('/GetVaccinationResults')
         .catch((error) => {
-            if (error.code === 'ECONNABORTED') {
-                throw { response: { status: nhsStatusCodes.RequestTimeout } }
-            } else {
-                throw error
-            }
+            handleError(error)
         })
     return res
 }
@@ -187,19 +229,30 @@ export const getVaccinationResults = (token, tokenId) => async () => {
  * Feature toggle endpoints
  */
 export const GetWalletTypes = (token, tokenId, device) => async () => {
-    const res = await API(token, tokenId).get('/GetWalletTypes', { headers: { Device: device } })
-
+    const res = await API(token, tokenId)
+        .get('/GetWalletTypes', { headers: { Device: device } })
+        .catch((error) => {
+            handleError(error)
+        })
     return res
 }
 
 export const getPdfDownloadToggles = (token, tokenId) => async () => {
-    const res = await API(token, tokenId).get('/GetPdfDownloadToggles')
+    const res = await API(token, tokenId)
+        .get('/GetPdfDownloadToggles')
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
 
 export const getDomesticEndpointStatusToggle = (token, tokenId) => async () => {
-    const res = await API(token, tokenId).get('/GetDomesticEndpointStatus')
+    const res = await API(token, tokenId)
+        .get('/GetDomesticEndpointStatus')
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
@@ -215,45 +268,61 @@ export const getDomesticEndpointStatusToggle = (token, tokenId) => async () => {
         2- Recovery Based International  
 */
 export const walletPassIos = (token, tokenId, QRType, DoseNumber, language) => async () => {
-    const res = await API(token, tokenId).get('/walletPassIos', {
-        responseType: 'arraybuffer',
+    const res = await API(token, tokenId)
+        .get('/walletPassIos', {
+            responseType: 'arraybuffer',
 
-        headers:
-            QRType === 1 && DoseNumber !== null
-                ? {
-                      // matches for international travel
-                      'Content-Type': 'application/vnd.apple.pkpass',
-                      QRType: QRType,
-                      DoseNumber: DoseNumber,
-                      Language: language
-                  }
-                : {
-                      // domestic and recovery
-                      'Content-Type': 'application/vnd.apple.pkpass',
-                      QRType: QRType,
-                      Language: language
-                  }
-    })
+            headers:
+                QRType === 1 && DoseNumber !== null
+                    ? {
+                          // matches for international travel
+                          'Content-Type': 'application/vnd.apple.pkpass',
+                          QRType: QRType,
+                          DoseNumber: DoseNumber,
+                          Language: language
+                      }
+                    : {
+                          // domestic and recovery
+                          'Content-Type': 'application/vnd.apple.pkpass',
+                          QRType: QRType,
+                          Language: language
+                      }
+        })
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
 }
 
 export const walletPassGoogle = (token, tokenId, QRType, DoseNumber, language) => async () => {
-    const res = await API(token, tokenId).get('/walletPassGoogle', {
-        headers:
-            QRType === 1 && DoseNumber !== null
-                ? {
-                      // matches for international travel
-                      QRType: QRType,
-                      DoseNumber: DoseNumber,
-                      Language: language
-                  }
-                : {
-                      // domestic and recovery
-                      QRType: QRType,
-                      Language: language
-                  }
-    })
+    const res = await API(token, tokenId)
+        .get('/walletPassGoogle', {
+            headers:
+                QRType === 1 && DoseNumber !== null
+                    ? {
+                          // matches for international travel
+                          QRType: QRType,
+                          DoseNumber: DoseNumber,
+                          Language: language
+                      }
+                    : {
+                          // domestic and recovery
+                          QRType: QRType,
+                          Language: language
+                      }
+        })
+        .catch((error) => {
+            handleError(error)
+        })
 
     return res
+}
+
+const handleError = (error) => {
+    if (error.code === 'ECONNABORTED') {
+        throw { response: { status: nhsStatusCodes.RequestTimeout } }
+    } else {
+        throw error
+    }
 }

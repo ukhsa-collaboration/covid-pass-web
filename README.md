@@ -1,7 +1,5 @@
 # Covid Pass Front End
 
-The frontend web application for the NHS COVID Pass service
-
 The NHS COVID Pass lets you share your coronavirus (COVID-19) status records in a secure way.
 
 It allows you to show others the details of your COVID-19 status when travelling abroad to some countries or territories. NHS Front End COVID Pass – is a Web Application run on JavaScript/[next.js](https://nextjs.org/) application that can be used to get COVID-19 tests/vaccination results and the NHS COVID-19 certificate

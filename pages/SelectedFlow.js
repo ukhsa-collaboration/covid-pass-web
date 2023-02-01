@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { UPDATE_SELECTED_FLOW, REMOVE_ALL_REDUX } from 'actions/types'
-import {
-    SELECTED_FLOW,
-    COVID_STATUS,
-    INDEX_PAGE,
-    UNVERIFIED,
-    SESSION_ENDED
-} from 'constants/routes'
+import { UPDATE_SELECTED_FLOW } from 'actions/types'
+import { SELECTED_FLOW, COVID_STATUS, INDEX_PAGE, UNVERIFIED } from 'constants/routes'
 import { trackPageView, trackEvent } from 'helpers/appInsights'
 import { selectedFlowStrings, timeoutAlertStrings } from 'localization/translations'
 import Head from 'next/head'
@@ -22,10 +16,13 @@ import DomesticButton from 'components/SelectedFlow/DomesticButton'
 import InternationalButton from 'components/SelectedFlow/InternationalButton'
 import InternationalUpliftCard from 'components/SelectedFlow/InternationalUpliftCard'
 import { getDomesticFeatureToggle } from 'helpers/featureToggleHelper'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const SelectedFlow = () => {
     const router = useRouter()
     const dispatch = useDispatch()
+    const { mismatchedUuidEndSession } = useEndUserSession()
+
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const featureToggle = useSelector((state) => state.featureToggleReducer.featureToggle)
@@ -52,9 +49,7 @@ const SelectedFlow = () => {
 
     const onClick = async (event, SelectedFlow) => {
         if (uuidCookieReduxNotMatching(cookies, user)) {
-            router.push(SESSION_ENDED).then(() => {
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            mismatchedUuidEndSession()
             return
         }
 

@@ -24,7 +24,6 @@ import { Provider, useDispatch, useSelector } from 'react-redux'
 import { useStore } from 'store/store'
 import StandardAlert from 'components/Alerts/StandardAlert'
 import {
-    REMOVE_ALL_REDUX,
     REFRESH_SSO_TMP_NHS_USER_TOKEN,
     REMOVE_USER,
     ADD_USER_CONFIGURATION,
@@ -60,7 +59,7 @@ import { getDomesticFeatureToggle } from 'helpers/featureToggleHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import nhsStatusCodes from 'api/nhsStatusCodes'
-import { ERROR_500, SESSION_EXPIRED } from 'constants/routes'
+import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { trackError, forceTrackEvent, trackEvent } from 'helpers/appInsights'
 import LoadingPage from 'components/LoadingSpinner/LoadingPage'
 import { checkCacheUnixTime, checkCacheUnixTimeLoadSpinnerBuffer } from 'helpers/auth'
@@ -208,6 +207,9 @@ const CovidPassApp = ({ Component, pageProps }) => {
                 setLoadingRefreshToken(false)
 
                 switch (err?.response?.status) {
+                    case nhsStatusCodes.RequestTimeout:
+                        router.push(TIMEOUT_ERROR)
+                        break
                     case nhsStatusCodes.AuthTokenIncorrect:
                     case nhsStatusCodes.WrongRequest:
                         routeThenEndSession(SESSION_EXPIRED)
@@ -278,10 +280,7 @@ const CovidPassApp = ({ Component, pageProps }) => {
                     setLoadingUserConfiguration(false)
                 }
             } else {
-                router.push(SESSION_EXPIRED).then(() => {
-                    removeUserCookie(setCookie)
-                    dispatch({ type: REMOVE_ALL_REDUX })
-                })
+                routeThenEndSession(SESSION_EXPIRED)
                 trackEvent('_app.js - Id token session expired')
             }
         }
@@ -324,18 +323,15 @@ const CovidPassApp = ({ Component, pageProps }) => {
             setLoadingUserConfiguration(false)
         } catch (err) {
             switch (err?.response?.status) {
+                case nhsStatusCodes.RequestTimeout:
+                    router.push(TIMEOUT_ERROR)
+                    break
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
-                    router.push(ERROR_500).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(ERROR_500)
                     break
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
                     break
             }
             setLoadingUserConfiguration(false)
@@ -397,19 +393,16 @@ const CovidPassApp = ({ Component, pageProps }) => {
 
             switch (err?.response?.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
+                    break
+                case nhsStatusCodes.RequestTimeout:
+                    router.push(TIMEOUT_ERROR)
                     break
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
                 case nhsStatusCodes.wafErrorError:
                 default:
-                    router.push(ERROR_500).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(ERROR_500)
                     break
             }
             trackError('API - Get Wallet Types ', err)
@@ -452,19 +445,16 @@ const CovidPassApp = ({ Component, pageProps }) => {
 
             switch (err?.response?.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
+                    break
+                case nhsStatusCodes.RequestTimeout:
+                    router.push(TIMEOUT_ERROR)
                     break
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
                 case nhsStatusCodes.wafErrorError:
                 default:
-                    router.push(ERROR_500).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(ERROR_500)
                     break
             }
 
@@ -504,19 +494,16 @@ const CovidPassApp = ({ Component, pageProps }) => {
 
             switch (err?.response?.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
+                    break
+                case nhsStatusCodes.RequestTimeout:
+                    router.push(TIMEOUT_ERROR)
                     break
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
                 case nhsStatusCodes.wafErrorError:
                 default:
-                    router.push(ERROR_500).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(ERROR_500)
                     break
             }
 

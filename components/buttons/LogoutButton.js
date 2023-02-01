@@ -1,19 +1,16 @@
 import React from 'react'
 import { trackEvent } from 'helpers/appInsights'
-import { useDispatch, useSelector } from 'react-redux'
-import { REMOVE_ALL_REDUX } from 'actions/types'
+import { useSelector } from 'react-redux'
 import { gotoHomepage, isNhsAppNative } from 'helpers/isNhsApp'
-import { removeUserCookie } from 'helpers/cookieHelper'
-import { useCookies } from 'react-cookie'
-import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import PropTypes from 'prop-types'
 import { button } from 'localization/translations'
 import { getLanguage } from 'helpers/userHelper'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const LogoutButton = ({ disabled }) => {
-    const dispatch = useDispatch()
+    const { endSession } = useEndUserSession()
+
     const user = useSelector((state) => state.userReducer.user)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
 
     button.setLanguage(getLanguage(user))
 
@@ -21,8 +18,7 @@ const LogoutButton = ({ disabled }) => {
         if (isNhsAppNative()) {
             gotoHomepage()
         } else {
-            dispatch({ type: REMOVE_ALL_REDUX })
-            removeUserCookie(setCookie)
+            endSession()
 
             trackEvent('End Session - Button Click')
         }

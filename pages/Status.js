@@ -10,7 +10,8 @@ import {
     ERROR_500,
     SELECTED_FLOW,
     SESSION_EXPIRED,
-    SESSION_ENDED
+    SESSION_ENDED,
+    TIMEOUT_ERROR
 } from 'constants/routes'
 import LoadingPage from 'components/LoadingSpinner/LoadingPage'
 import {
@@ -33,8 +34,7 @@ import {
     getUserToken,
     getUserTokenId,
     getUserTokenIdUnixExpiry,
-    getUserPreferenceSelectedFlow,
-    removeUserCookie
+    getUserPreferenceSelectedFlow
 } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
@@ -42,9 +42,13 @@ import { getIdentityProofingLevel, getLanguage } from 'helpers/userHelper'
 import { expectedDataForGetCertificate } from 'helpers/validations'
 import { logCertificateGeneration } from 'helpers/certificateHelper'
 import { getDomesticFeatureToggle } from 'helpers/featureToggleHelper'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const Status = () => {
     const router = useRouter()
+    const dispatch = useDispatch()
+    const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
+
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const nhsApp = useSelector((state) => state.nhsAppReducer.nhsApp)
@@ -53,7 +57,6 @@ const Status = () => {
     const [loading, setLoading] = React.useState(true)
     const [internationalQrApiLoading, setInternationalQrApiLoading] = React.useState(false)
 
-    const dispatch = useDispatch()
     const pageHeadTitle =
         getUserPreferenceSelectedFlow(cookies) === 'international'
             ? statusStrings.internationalStatusHead
@@ -90,21 +93,16 @@ const Status = () => {
 
         if (getUserToken(cookies)) {
             {
+                if (uuidCookieReduxNotMatching(cookies, user)) {
+                    mismatchedUuidEndSession()
+                }
+
                 // Check to ensure valid id-token unix time
                 if (checkCacheUnixTime(getUserTokenIdUnixExpiry(cookies))) {
                     determineStatusToFetch()
                 } else {
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
                     trackEvent('Status - Id token session expired')
-                }
-
-                if (uuidCookieReduxNotMatching(cookies, user)) {
-                    router.push(SESSION_ENDED).then(() => {
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
                 }
             }
         }
@@ -210,21 +208,16 @@ const Status = () => {
         } catch (err) {
             switch (err?.response?.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
+                    break
+                case nhsStatusCodes.RequestTimeout:
+                    router.push(TIMEOUT_ERROR)
                     break
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
                 case nhsStatusCodes.wafErrorError:
                 default:
-                    router
-                        .push(ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS))
-                        .then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                    routeThenEndSession(ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS))
                     break
             }
 
@@ -232,10 +225,7 @@ const Status = () => {
         } finally {
             if (error) {
                 trackEvent('Domestic Certificate - data error fields not as expected')
-                router.push(ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS)).then(() => {
-                    removeUserCookie(setCookie)
-                    dispatch({ type: REMOVE_ALL_REDUX })
-                })
+                routeThenEndSession(ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS))
             }
         }
     }
@@ -346,21 +336,16 @@ const Status = () => {
         } catch (err) {
             switch (err?.response?.status) {
                 case nhsStatusCodes.AuthTokenIncorrect:
-                    router.push(SESSION_EXPIRED).then(() => {
-                        removeUserCookie(setCookie)
-                        dispatch({ type: REMOVE_ALL_REDUX })
-                    })
+                    routeThenEndSession(SESSION_EXPIRED)
+                    break
+                case nhsStatusCodes.RequestTimeout:
+                    router.push(TIMEOUT_ERROR)
                     break
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
                 case nhsStatusCodes.wafErrorError:
                 default:
-                    router
-                        .push(ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS))
-                        .then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                    routeThenEndSession(ERROR_500 + '?page=' + removeSlashFromRoute(COVID_STATUS))
                     break
             }
             setInternationalQrApiLoading(false)

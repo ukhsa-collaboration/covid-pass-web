@@ -75,6 +75,7 @@ const Home = () => {
                 })
             } catch (err) {
                 switch (err?.response?.status) {
+                    case nhsStatusCodes.RequestTimeout:
                     case nhsStatusCodes.WrongRequest:
                     case nhsStatusCodes.AuthTokenIncorrect:
                     case nhsStatusCodes.ServerError:
@@ -140,6 +141,7 @@ const Home = () => {
                             dispatch({ type: REMOVE_TMP_TOKEN_INFO })
                         })
                     break
+                case nhsStatusCodes.RequestTimeout:
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.ServerError:
                 default:
@@ -182,6 +184,7 @@ const Home = () => {
             setLoadingDomesticFeatureToggle(false)
 
             switch (err?.response?.status) {
+                case nhsStatusCodes.RequestTimeout:
                 case nhsStatusCodes.WrongRequest:
                 case nhsStatusCodes.AuthTokenIncorrect:
                 case nhsStatusCodes.ServerError:

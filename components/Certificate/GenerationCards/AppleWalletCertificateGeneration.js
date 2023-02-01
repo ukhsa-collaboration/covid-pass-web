@@ -4,28 +4,25 @@ import { trackEvent, trackError } from 'helpers/appInsights'
 import nhsStatusCodes from 'api/nhsStatusCodes'
 import AppleWalletButton from 'components/buttons/AppleWalletButton'
 import { walletPassIos } from 'actions/userActions'
-import { ERROR_500, SESSION_EXPIRED, SESSION_ENDED } from 'constants/routes'
+import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { useRouter } from 'next/router'
-import { REMOVE_ALL_REDUX } from 'actions/types'
 import { showAppleWallet } from 'helpers/walletHelper'
 import { isNhsAppNative, nhsAppDownloadFromBytes } from 'helpers/isNhsApp'
 import { checkCacheUnixTime } from 'helpers/auth'
-import {
-    getUserToken,
-    getUserTokenId,
-    removeUserCookie,
-    getUserTokenIdUnixExpiry
-} from 'helpers/cookieHelper'
+import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import PropTypes from 'prop-types'
 import { getLanguage } from 'helpers/userHelper'
 import { certificateTypeToText } from 'helpers/certificateHelper'
 import { uuidCookieReduxNotMatching } from 'helpers/auth'
+import useEndUserSession from 'hooks/useEndUserSession'
 
 const AppleWalletCertificateGeneration = ({ QRType, DoseNumber = null }) => {
     const dispatch = useDispatch()
     const router = useRouter()
+    const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
+
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
@@ -34,9 +31,7 @@ const AppleWalletCertificateGeneration = ({ QRType, DoseNumber = null }) => {
         trackEvent('Certificate - iOS Wallet Button Click')
 
         if (uuidCookieReduxNotMatching(cookies, user)) {
-            router.push(SESSION_ENDED).then(() => {
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            mismatchedUuidEndSession()
             return
         }
 
@@ -62,28 +57,22 @@ const AppleWalletCertificateGeneration = ({ QRType, DoseNumber = null }) => {
             } catch (err) {
                 switch (err?.response?.status) {
                     case nhsStatusCodes.AuthTokenIncorrect:
-                        router.push(SESSION_EXPIRED).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(SESSION_EXPIRED)
+                        break
+                    case nhsStatusCodes.RequestTimeout:
+                        router.push(TIMEOUT_ERROR)
                         break
                     case nhsStatusCodes.WrongRequest:
                     case nhsStatusCodes.ServerError:
                     default:
-                        router.push(ERROR_500).then(() => {
-                            removeUserCookie(setCookie)
-                            dispatch({ type: REMOVE_ALL_REDUX })
-                        })
+                        routeThenEndSession(ERROR_500)
                         break
                 }
 
                 trackError('API - iOS Wallet', err)
             }
         } else {
-            router.push(SESSION_EXPIRED).then(() => {
-                removeUserCookie(setCookie)
-                dispatch({ type: REMOVE_ALL_REDUX })
-            })
+            routeThenEndSession(SESSION_EXPIRED)
             trackEvent('iOS Wallet - Id token session expired')
         }
     }
