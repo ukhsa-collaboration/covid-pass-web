@@ -1,4 +1,4 @@
-import DateFormat from 'dateformat'
+import moment from 'moment'
 import { welshConvertDate } from 'helpers/dateHelper'
 import { isNhsAppNative } from 'helpers/isNhsApp'
 import { LANGUAGE_CODES } from 'constants/index'
@@ -30,9 +30,11 @@ export const getName = (user) => {
 }
 
 export const getDateFormattedDOB = (user, textLang = LANGUAGE_CODES.en) => {
-    return user && user.dateOfBirth && textLang === LANGUAGE_CODES.cy
-        ? welshConvertDate(DateFormat(user.dateOfBirth, 'd mmmm yyyy', true))
-        : DateFormat(user.dateOfBirth, 'd mmmm yyyy', true)
+    if (!user) return
+    if (!user.dateOfBirth) return
+
+    const formatted = moment.utc(user.dateOfBirth).format('D MMMM YYYY')
+    return textLang === LANGUAGE_CODES.cy ? welshConvertDate(formatted) : formatted
 }
 
 export const getDestination = (user) => {

@@ -1,35 +1,32 @@
-import DateFormat from 'dateformat'
+import moment from 'moment'
 import { checkDatesForMiddayAndMidnightStrings } from 'localization/translations'
-import { LANGUAGE_CODES } from 'constants/index'
+import { LANGUAGE_CODES, DATE_TIME_FORMATS } from 'constants/index'
 
 export const getFormattedDateTime = (dateTime, textLang = LANGUAGE_CODES.en) => {
     checkDatesForMiddayAndMidnightStrings.setLanguage(
         textLang === LANGUAGE_CODES.cy ? LANGUAGE_CODES.cy : LANGUAGE_CODES.en
     )
+    const formatted = moment(dateTime).format(DATE_TIME_FORMATS.longDate)
 
     return (
-        (textLang === LANGUAGE_CODES.cy
-            ? welshConvertDate(DateFormat(dateTime, 'd mmmm yyyy'))
-            : DateFormat(dateTime, 'd mmmm yyyy')) +
+        (textLang === LANGUAGE_CODES.cy ? welshConvertDate(formatted) : formatted) +
         checkDatesForMiddayAndMidnightStrings.at +
-        checkDatesForMiddayAndMidnight(DateFormat(dateTime, 'h.MMtt'))
+        checkDatesForMiddayAndMidnight(moment(dateTime).format(DATE_TIME_FORMATS.time))
     )
 }
 
 export const getFormattedDateTimeEuropeLondon = (dateTime, textLang = LANGUAGE_CODES.en) => {
-    var moment = require('moment-timezone')
+    var momentTz = require('moment-timezone')
     var format = 'YYYY/MM/DD HH:mm:ss'
-    return getFormattedDateTime(moment.utc(dateTime).tz('Europe/London').format(format), textLang)
+
+    return getFormattedDateTime(momentTz.utc(dateTime).tz('Europe/London').format(format), textLang)
 }
 
 export const getFormattedDateTimeEuropeLondonNoHours = (dateTime, textLang = LANGUAGE_CODES.en) => {
-    var moment = require('moment-timezone')
-    var format = 'YYYY/MM/DD'
-    return textLang === LANGUAGE_CODES.cy
-        ? welshConvertDate(
-              DateFormat(moment.tz(dateTime, 'Europe/London').format(format), 'd mmmm yyyy')
-          )
-        : DateFormat(moment.tz(dateTime, 'Europe/London').format(format), 'd mmmm yyyy')
+    var momentTz = require('moment-timezone')
+    const formatted = momentTz.tz(dateTime, 'Europe/London').format(DATE_TIME_FORMATS.longDate)
+
+    return textLang === LANGUAGE_CODES.cy ? welshConvertDate(formatted) : formatted
 }
 
 export const timeCheck = (time) => {

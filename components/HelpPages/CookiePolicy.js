@@ -54,7 +54,7 @@ const CookiePolicy = ({ showBackButton = true }) => {
                     </h2>
                     <p className="nhsuk-body">{cookiePolicyPageStrings.textGroup5.text}</p>
                     <h2 className="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-                        {cookiePolicyPageStrings.textGroup8.title}
+                        {cookiePolicyPageStrings.textGroup6.title}
                     </h2>
                     <table
                         role="table"
@@ -63,13 +63,13 @@ const CookiePolicy = ({ showBackButton = true }) => {
                             <tr role="row" className="nhsuk-table__row">
                                 <th scope="col" role="columnheader">
                                     {
-                                        cookiePolicyPageStrings.textGroup8.expander1.table.headings
+                                        cookiePolicyPageStrings.textGroup6.expander1.table.headings
                                             .heading1
                                     }
                                 </th>
                                 <th scope="col" role="columnheader">
                                     {
-                                        cookiePolicyPageStrings.textGroup8.expander1.table.headings
+                                        cookiePolicyPageStrings.textGroup6.expander1.table.headings
                                             .heading2
                                     }
                                 </th>
@@ -80,24 +80,24 @@ const CookiePolicy = ({ showBackButton = true }) => {
                                 <td className="nhsuk-table__cell">
                                     <span className="nhsuk-table-responsive__heading">
                                         {
-                                            cookiePolicyPageStrings.textGroup8.expander1.table
+                                            cookiePolicyPageStrings.textGroup6.expander1.table
                                                 .headings.heading1
                                         }
                                     </span>
                                     {
-                                        cookiePolicyPageStrings.textGroup8.expander1.table.rows.row1
+                                        cookiePolicyPageStrings.textGroup6.expander1.table.rows.row1
                                             .col1
                                     }
                                 </td>
                                 <td className="nhsuk-table__cell">
                                     <span className="nhsuk-table-responsive__heading">
                                         {
-                                            cookiePolicyPageStrings.textGroup8.expander1.table
+                                            cookiePolicyPageStrings.textGroup6.expander1.table
                                                 .headings.heading2
                                         }
                                     </span>
                                     {
-                                        cookiePolicyPageStrings.textGroup8.expander1.table.rows.row1
+                                        cookiePolicyPageStrings.textGroup6.expander1.table.rows.row1
                                             .col2
                                     }
                                 </td>
@@ -106,128 +106,30 @@ const CookiePolicy = ({ showBackButton = true }) => {
                                 <td className="nhsuk-table__cell">
                                     <span className="nhsuk-table-responsive__heading">
                                         {
-                                            cookiePolicyPageStrings.textGroup8.expander1.table
+                                            cookiePolicyPageStrings.textGroup6.expander1.table
                                                 .headings.heading1
                                         }
                                     </span>
                                     {
-                                        cookiePolicyPageStrings.textGroup8.expander1.table.rows.row2
+                                        cookiePolicyPageStrings.textGroup6.expander1.table.rows.row2
                                             .col1
                                     }
                                 </td>
                                 <td className="nhsuk-table__cell">
                                     <span className="nhsuk-table-responsive__heading">
                                         {
-                                            cookiePolicyPageStrings.textGroup8.expander1.table
+                                            cookiePolicyPageStrings.textGroup6.expander1.table
                                                 .headings.heading2
                                         }
                                     </span>
                                     {
-                                        cookiePolicyPageStrings.textGroup8.expander1.table.rows.row2
+                                        cookiePolicyPageStrings.textGroup6.expander1.table.rows.row2
                                             .col2
                                     }
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-
-                    <h2 className="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-                        {cookiePolicyPageStrings.textGroup6.title}
-                    </h2>
-                    <p className="nhsuk-body">
-                        {cookiePolicyPageStrings.textGroup6.text1.text1}
-                        <ExternalLink
-                            href={cookiePolicyPageStrings.textGroup6.text1.link1.href}
-                            text={cookiePolicyPageStrings.textGroup6.text1.link1.text}
-                        />
-                        {cookiePolicyPageStrings.textGroup6.text1.text2}
-                    </p>
-                    <p className="nhsuk-body">{cookiePolicyPageStrings.textGroup6.text2}</p>
-
-                    <h2 className="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-                        {cookiePolicyPageStrings.textGroup7.title}
-                    </h2>
-                    <p className="nhsuk-body">{cookiePolicyPageStrings.textGroup7.text}</p>
-
-                    <DetailsExpander
-                        title={cookiePolicyPageStrings.textGroup7.expander1.title}
-                        details={
-                            <table
-                                role="table"
-                                className="nhsuk-table nhsuk-table-responsive nhs-table-custom-changes">
-                                <thead className="nhsuk-table__head">
-                                    <tr role="row" className="nhsuk-table__row">
-                                        <th scope="col" role="columnheader">
-                                            {
-                                                cookiePolicyPageStrings.textGroup7.expander1.table
-                                                    .headings.heading1
-                                            }
-                                        </th>
-                                        <th scope="col" role="columnheader">
-                                            {
-                                                cookiePolicyPageStrings.textGroup7.expander1.table
-                                                    .headings.heading2
-                                            }
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="nhsuk-table__body">
-                                    <tr role="row" className="nhsuk-table__row">
-                                        <td className="nhsuk-table__cell">
-                                            <span className="nhsuk-table-responsive__heading">
-                                                {
-                                                    cookiePolicyPageStrings.textGroup7.expander1
-                                                        .table.headings.heading1
-                                                }
-                                            </span>
-                                            {
-                                                cookiePolicyPageStrings.textGroup7.expander1.table
-                                                    .rows.row1.col1
-                                            }
-                                        </td>
-                                        <td className="nhsuk-table__cell">
-                                            <span className="nhsuk-table-responsive__heading">
-                                                {
-                                                    cookiePolicyPageStrings.textGroup7.expander1
-                                                        .table.headings.heading2
-                                                }
-                                            </span>
-                                            {
-                                                cookiePolicyPageStrings.textGroup7.expander1.table
-                                                    .rows.row1.col2
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr role="row" className="nhsuk-table__row">
-                                        <td className="nhsuk-table__cell">
-                                            <span className="nhsuk-table-responsive__heading">
-                                                {
-                                                    cookiePolicyPageStrings.textGroup7.expander1
-                                                        .table.headings.heading1
-                                                }
-                                            </span>
-                                            {
-                                                cookiePolicyPageStrings.textGroup7.expander1.table
-                                                    .rows.row2.col1
-                                            }
-                                        </td>
-                                        <td className="nhsuk-table__cell">
-                                            <span className="nhsuk-table-responsive__heading">
-                                                {
-                                                    cookiePolicyPageStrings.textGroup7.expander1
-                                                        .table.headings.heading2
-                                                }
-                                            </span>
-                                            {
-                                                cookiePolicyPageStrings.textGroup7.expander1.table
-                                                    .rows.row2.col2
-                                            }
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        }
-                    />
                 </div>
             </div>
             {getUserToken(cookies) ? (

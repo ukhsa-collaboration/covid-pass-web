@@ -24,7 +24,6 @@
     "@redux-devtools/extension": "^3.2.2",
     "axios": "^0.27.2",
     "bootstrap": "^4.6.0",
-    "dateformat": "^4.5.1",
     "embla-carousel": "^4.5.1",
     "env-cmd": "^10.1.0",
     "moment": "^2.29.4",

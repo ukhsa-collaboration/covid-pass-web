@@ -30,8 +30,8 @@ export const helpAccessibility = new LocalizedStrings({
             heading: 'Feedback and contact information',
             body1: 'We are always looking to improve the accessibility of this Service.',
             body2: "If you find any problems that are not listed on this page, think we're not meeting accessibility requirements or you would like to report positive feedback about this website’s accessibility, then please email ",
-            hrefText: 'england.covidaccessibility@nhs.net',
-            hrefLink: 'mailto:england.covidaccessibility@nhs.net',
+            hrefText: 'england.covidaccessibility@nhsbsa.nhs.uk',
+            hrefLink: 'mailto:england.covidaccessibility@nhsbsa.nhs.uk',
             body3: 'If you have a disability or other specific access need, you can adapt the content of the Service using your device to make it easier for you. AbilityNet has advice to help you make your device easier to use: ',
             href2Text: 'https://mcmw.abilitynet.org.uk/',
             href2Link: 'https://mcmw.abilitynet.org.uk/'
@@ -72,8 +72,8 @@ export const helpAccessibility = new LocalizedStrings({
             heading: 'Adborth a gwybodaeth gyswllt',
             body1: 'Rydyn ni bob amser yn ceisio gwella hygyrchedd y Gwasanaeth hwn.',
             body2: "Os byddwch chi'n dod o hyd i unrhyw broblemau nad ydyn nhw wedi'u rhestru ar y dudalen hon, neu'n credu nad ydyn ni'n cwrdd â gofynion hygyrchedd neu os hoffech chi roi adborth cadarnhaol ynglŷn â hygyrchedd y wefan hon, yna e-bostiwch ",
-            hrefText: 'england.covidaccessibility@nhs.net',
-            hrefLink: 'mailto:england.covidaccessibility@nhs.net',
+            hrefText: 'england.covidaccessibility@nhsbsa.nhs.uk',
+            hrefLink: 'mailto:england.covidaccessibility@nhsbsa.nhs.uk',
             body3: "Os oes gennych anabledd neu angen mynediad penodol arall, gallwch addasu cynnwys y Gwasanaeth gan ddefnyddio'ch dyfais i'w gwneud yn haws i chi. Mae gan AbilityNet gyngor i'ch helpu chi i wneud eich dyfais yn haws i'w defnyddio: ",
             href2Text: 'https://mcmw.abilitynet.org.uk/',
             href2Link: 'https://mcmw.abilitynet.org.uk/'
