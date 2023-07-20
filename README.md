@@ -26,7 +26,7 @@ You will also need to install:
 To clone the repository:
 
 1. Open a new CMD instance (if installed use git bash) and navigate to the destination directory where you'd like the cloned repository to exist. If necessary, create this folder first.
-2. Execute the command: git clone https://github.com/nhsx/covid-pass-web.git
+2. Execute the command: git clone https://github.com/ukhsa-collaboration/covid-pass-web.git
 
 ## For More Information
 
@@ -34,4 +34,4 @@ If you have further questions about the NHS COVID Pass Letter or email service p
 
 **Link to the licence file**
 
-https://github.com/nhsx/covid-pass-web/blob/main/LICENSE
+https://github.com/ukhsa-collaboration/covid-pass-web/blob/main/LICENSE
