@@ -35,3 +35,23 @@ If you have further questions about the NHS COVID Pass Letter or email service p
 **Link to the licence file**
 
 https://github.com/ukhsa-collaboration/covid-pass-web/blob/main/LICENSE
+
+
+### Gitleaks Setup
+Gitleaks is implemented in this repo. Gitleaks will scan any commit against a list of regex rules to scan. Please follow these steps to setup Gitleaks:
+- Install Pre-commit to enable the gitleaks hook
+
+```
+pip install pre-commit
+or
+py -m pip install pre-commit
+```
+- Enable Auto Updates for pre-commit/gitleaks
+```
+pre-commit autoupdate
+```
+- Install Gitleaks trough pre-commit
+```
+pre-commit install
+```
+A gitleaks scan will now run automatically on every commit.
