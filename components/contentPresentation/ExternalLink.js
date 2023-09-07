@@ -15,7 +15,8 @@ const ExternalLink = ({ href, text, extraClasses = '', ariaLabel = '' }) => {
             target="_blank"
             {...ariaProps}
             href={href}
-            className={'nhsuk-link nhsuk-link--no-visited-state external-link ' + extraClasses}>
+            className={'nhsuk-link nhsuk-link--no-visited-state external-link ' + extraClasses}
+            data-testid="external-link">
             {text}
             <span className="screen-reader-only-hidden">
                 &nbsp;{externalLinkStrings.opensNewTab}

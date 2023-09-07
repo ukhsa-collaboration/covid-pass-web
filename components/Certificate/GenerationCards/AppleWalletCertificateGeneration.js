@@ -8,14 +8,13 @@ import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { useRouter } from 'next/router'
 import { showAppleWallet } from 'helpers/walletHelper'
 import { isNhsAppNative, nhsAppDownloadFromBytes } from 'helpers/isNhsApp'
-import { checkCacheUnixTime } from 'helpers/auth'
+import { checkCacheUnixTime, uuidCookieReduxNotMatching } from 'helpers/auth'
 import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import PropTypes from 'prop-types'
 import { getLanguage } from 'helpers/userHelper'
 import { certificateTypeToText } from 'helpers/certificateHelper'
-import { uuidCookieReduxNotMatching } from 'helpers/auth'
 import useEndUserSession from 'hooks/useEndUserSession'
 
 const AppleWalletCertificateGeneration = ({ QRType, DoseNumber = null }) => {
@@ -23,7 +22,7 @@ const AppleWalletCertificateGeneration = ({ QRType, DoseNumber = null }) => {
     const router = useRouter()
     const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
 
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
 
@@ -102,10 +101,10 @@ const AppleWalletCertificateGeneration = ({ QRType, DoseNumber = null }) => {
     }
 
     const downloadNhsAppWallet = async (blob, fileName) => {
-        var reader = new FileReader()
+        const reader = new FileReader()
         reader.readAsDataURL(blob)
         reader.onloadend = function () {
-            var base64data = reader.result
+            const base64data = reader.result
             nhsAppDownloadFromBytes(base64data, fileName, 'application/vnd.apple.pkpass')
         }
     }

@@ -30,10 +30,13 @@ import LoadingPage from 'components/LoadingSpinner/LoadingPage'
 import nhsStatusCodes from 'api/nhsStatusCodes'
 import { isNhsAppNative } from 'helpers/isNhsApp'
 import { ageIsValid } from 'helpers/validations'
-import { NHS_LOGIN_CONSENT_NOT_GIVEN, NO_USER_PREFERENCE_STRING } from 'constants/index'
+import {
+    NHS_LOGIN_CONSENT_NOT_GIVEN,
+    NO_USER_PREFERENCE_STRING,
+    COOKIE_USER_TOKEN_KEY
+} from 'constants/index'
 import StartPage from 'components/StartPage/StartPage'
 import { useCookies } from 'react-cookie'
-import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import {
     getIdentityProofingLevel,
     considerGracePeriod,
@@ -49,7 +52,6 @@ const CovidStatusSSO = () => {
     const featureToggle = useSelector((state) => state.featureToggleReducer.featureToggle)
     const [assertedLoginIdentity, setAssertedLoginIdentity] = React.useState(null)
     const [code, setCode] = React.useState(null)
-    const [nhsUserToken, setNhsUserToken] = React.useState(null)
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
     const [loadingUserConfiguration, setLoadingUserConfiguration] = React.useState(false)
     const [loadingDomesticFeatureToggle, setLoadingDomesticFeatureToggle] = useState(false)
@@ -116,17 +118,16 @@ const CovidStatusSSO = () => {
         }
     }, [code, cookies, nhsApp.tmpUserToken])
 
-    const validateCode = async (code) => {
+    const validateCode = async (nhsCode) => {
         if (window.location) {
             const redirectUri = window.location.origin + COVID_STATUS_SSO + '/'
 
             try {
-                const accessTokenRes = await dispatch(validateNHSCode(code, redirectUri))
+                const accessTokenRes = await dispatch(validateNHSCode(nhsCode, redirectUri))
                 dispatch({
                     type: ADD_TMP_USER_TOKEN,
                     payload: accessTokenRes.data
                 })
-                setNhsUserToken(accessTokenRes.data)
                 trackEvent('Covid Status SSO - Successfully Obtained CovidPass Access Token')
             } catch (err) {
                 switch (err?.response?.status) {

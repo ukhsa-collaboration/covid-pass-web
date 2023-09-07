@@ -12,16 +12,10 @@ const DomesticPage = () => {
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const user = useSelector((state) => state.userReducer.user)
     const router = useRouter()
-    const [certificateStatus, setCertificateStatus] = React.useState(
-        userApiCache.certificate.domestic.status
-    )
-    const [certificateEverExisted, setCertificateExpired] = React.useState(
-        userApiCache.certificate.domestic.certificateEverExisted
-    )
 
-    const [certificateErrorCode, setCertificateErrorCode] = React.useState(
-        userApiCache.certificate.domestic.errorCode
-    )
+    const certificateStatus = userApiCache.certificate.domestic.status
+    const certificateEverExisted = userApiCache.certificate.domestic.certificateEverExisted
+    const certificateErrorCode = userApiCache.certificate.domestic.errorCode
 
     useEffect(() => {
         if (getIdentityProofingLevel(user) === 'P5') {
@@ -29,19 +23,19 @@ const DomesticPage = () => {
         }
     }, [user, router])
 
-    return (
-        <>
-            {certificateErrorCode !== null ? (
-                <CertificateErrorCode />
-            ) : certificateEverExisted && certificateStatus == false ? (
-                <DomesticExpired />
-            ) : certificateStatus ? (
-                <DomesticValidCertificate />
-            ) : (
-                <DomesticNoCertificate />
-            )}
-        </>
-    )
+    if (certificateErrorCode) {
+        return <CertificateErrorCode />
+    }
+
+    if (certificateEverExisted && !certificateStatus) {
+        return <DomesticExpired />
+    }
+
+    if (certificateStatus) {
+        return <DomesticValidCertificate />
+    }
+
+    return <DomesticNoCertificate />
 }
 
 export default DomesticPage

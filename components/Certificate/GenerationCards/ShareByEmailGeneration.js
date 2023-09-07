@@ -19,12 +19,11 @@ import {
 } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY, LANGUAGE_CODES } from 'constants/index'
-import { checkCacheUnixTime } from 'helpers/auth'
+import { checkCacheUnixTime, uuidCookieReduxNotMatching } from 'helpers/auth'
 import PrimaryButton from 'components/buttons/PrimaryButton'
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner'
 import { getLanguage } from 'helpers/userHelper'
 import { certificateTypeToText } from 'helpers/certificateHelper'
-import { uuidCookieReduxNotMatching } from 'helpers/auth'
 import useEndUserSession from 'hooks/useEndUserSession'
 
 const ShareByEmailGeneration = () => {
@@ -32,7 +31,7 @@ const ShareByEmailGeneration = () => {
     const dispatch = useDispatch()
     const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
 
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const [error, setError] = React.useState({
@@ -70,7 +69,7 @@ const ShareByEmailGeneration = () => {
         }
     }, [userApiCache, cookies, user])
 
-    var buttonTimeout
+    let buttonTimeout
 
     const handleSendClick = async () => {
         setEmailSent(false)
@@ -205,18 +204,6 @@ const ShareByEmailGeneration = () => {
         }
     }
 
-    const handleKeyPressEmailShare = (event) => {
-        if (event.key === 'Enter' && !disableButton) {
-            handleSendClick()
-        }
-    }
-
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            setShowMore(!showMore)
-        }
-    }
-
     const emailInputOnChange = (event) => {
         setEmailInputValue(event.target.value)
         if (userApiCache.emailSentCount < maxEmailsLimit && !backendLimitReached) {
@@ -228,13 +215,16 @@ const ShareByEmailGeneration = () => {
         <div className="pdf-share link-bar">
             <div
                 className="link-bar_div non-decoration-link-text"
+                data-testid="pdf-share-expander-bar"
                 id="pdf-share-expander-bar"
                 role="button"
                 aria-label={shareByEmailGenerationPageStrings.accessibilityExpanderText1}
                 tabIndex={0}
                 aria-expanded={showMore}
-                onKeyPress={(e) => handleKeyPress(e)}
-                onClick={() => setShowMore(!showMore)}>
+                onClick={() => setShowMore(!showMore)}
+                onKeyDown={(e) => {
+                    e.key === 'Enter' && setShowMore(!showMore)
+                }}>
                 <span className="hover-text-container">
                     <div className="link-bar-flex-container">
                         <EmailIcon className="card-link-icon" />
@@ -315,7 +305,9 @@ const ShareByEmailGeneration = () => {
                         value={emailInputValue}
                         autoComplete="email"
                         onChange={(e) => emailInputOnChange(e)}
-                        onKeyPress={(e) => handleKeyPressEmailShare(e)}
+                        onKeyDown={(e) => {
+                            e.key === 'Enter' && !disableButton && handleSendClick()
+                        }}
                     />
 
                     <div className="button-spinner-row">
@@ -323,6 +315,9 @@ const ShareByEmailGeneration = () => {
                             onClickAction={handleSendClick}
                             text={shareByEmailGenerationPageStrings.buttonText1}
                             extraClasses="initiate-button"
+                            dataTestId={`email-initiate-button__${
+                                disableButton ? 'disabled' : 'enabled'
+                            }`}
                             disabledBtn={disableButton}
                         />
                         {sharingCert && <LoadingSpinner size="small" certificateLoader />}

@@ -19,13 +19,11 @@ const API = (token = null, tokenId = null) => {
 
     const url = process.env.NEXT_PUBLIC_API_BASE_URL
 
-    const API = axios.create({
+    return axios.create({
         baseURL: url,
         timeout: timeoutLimit,
         headers
     })
-
-    return API
 }
 
 export default API

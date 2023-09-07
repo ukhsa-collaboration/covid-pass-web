@@ -11,6 +11,7 @@ export const DotButton = ({ index, selected, onClick }) => {
         <button
             aria-label={`${carouselStrings.dotButtonAriaLabel} ${index}`}
             className={`index--${index} embla__dot ${selected ? 'is-selected' : ''}`}
+            data-testid="embla__dot"
             type="button"
             onClick={onClick}
             tabIndex={0}
@@ -32,6 +33,7 @@ export const PrevButton = ({ enabled, onClick }) => {
         <button
             aria-label={carouselStrings.prevButtonAriaLabel}
             className="embla__button embla__button--prev"
+            data-testid="embla__button--prev"
             onClick={onClick}
             disabled={!enabled}>
             <svg className="embla__button__svg" viewBox="137.718 -1.001 366.563 644">
@@ -54,6 +56,7 @@ export const NextButton = ({ enabled, onClick }) => {
         <button
             aria-label={carouselStrings.nextButtonAriaLabel}
             className="embla__button embla__button--next"
+            data-testid="embla__button--next"
             onClick={onClick}
             disabled={!enabled}>
             <svg className="embla__button__svg" viewBox="0 0 238.003 238.003">

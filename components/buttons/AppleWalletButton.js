@@ -11,9 +11,10 @@ const AppleWalletButton = ({ onClick }) => {
     return (
         <button
             className="apple-wallet-button"
+            data-testid="apple-wallet-button"
             onClick={onClick}
-            onKeyPress={(e) => {
-                e.code === 'Enter' && onClick()
+            onKeyDown={(e) => {
+                e.key === 'Enter' && onClick()
             }}
             tabIndex={0}
             aria-label={button.openAppleWalletText}>

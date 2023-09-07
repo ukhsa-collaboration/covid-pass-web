@@ -13,7 +13,7 @@ const TimeoutAlert = ({ headerText, bodyText }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [endedSessionModal, setEndedSession] = useState(false)
     const user = useSelector((state) => state.userReducer.user)
-    var timeOutFunction
+    let timeOutFunction
 
     expiredTimeoutAlertStrings.setLanguage(getLanguage(user))
 
@@ -32,7 +32,7 @@ const TimeoutAlert = ({ headerText, bodyText }) => {
 
     // Leave the two functions below where they are or this will all break.
     // Yes we are aware that the functions 'are assigned a value but never used' but deleting them also breaks it. Please leave alone
-
+    // eslint-disable-next-line no-unused-vars
     const { getRemainingTime } = useIdleTimer({
         timeout: 1000 * 60 * 10, //This calculates to 10 minutes. To number of change minutes alter the last number.
         onIdle: handleOnIdle,
@@ -48,7 +48,7 @@ const TimeoutAlert = ({ headerText, bodyText }) => {
     }, [modalIsOpen])
 
     return (
-        <div>
+        <div data-testid="timeout-alert">
             <Modal isOpen={modalIsOpen}>
                 <ModalHeader>{headerText}</ModalHeader>
                 <ModalBody>

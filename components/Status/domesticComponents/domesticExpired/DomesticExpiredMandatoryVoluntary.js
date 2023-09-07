@@ -1,8 +1,7 @@
 import React from 'react'
 import { domesticPageStrings } from 'localization/translations'
-import { getLanguage } from 'helpers/userHelper'
+import { getLanguage, getIdentityProofingLevel } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
-import { getIdentityProofingLevel } from 'helpers/userHelper'
 import ViewRecordsButton from 'components/buttons/ViewRecordsButton'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 
@@ -11,7 +10,7 @@ const DomesticExpiredMandatoryVoluntary = () => {
     domesticPageStrings.setLanguage(getLanguage(user))
 
     return (
-        <div>
+        <div data-testid="domestic-expired-mandatory-voluntary">
             <div>
                 <h1 className="nhsuk-heading-xl">{domesticPageStrings.twoPassExpired.heading}</h1>
                 <p className="nhsuk-body">{domesticPageStrings.twoPassExpired.body1.text1}</p>

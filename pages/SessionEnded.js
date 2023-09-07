@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { gotoHomepage, isNhsAppNative } from 'helpers/isNhsApp'
-import { SESSION_ENDED } from 'constants/routes'
+import { SESSION_ENDED, INDEX_PAGE } from 'constants/routes'
 import { trackEvent, trackPageView } from 'helpers/appInsights'
-import { INDEX_PAGE } from 'constants/routes'
+import { getInternalHref } from 'helpers/index'
 import { useSelector } from 'react-redux'
 import { getLanguage } from 'helpers/userHelper'
 import { sessionEndedStrings } from 'localization/translations'
@@ -37,10 +37,11 @@ const SessionEnded = () => {
             <p className="nhsuk-body" id="SessionExpired-body-one">
                 <a
                     className="nhsuk-link nhsuk-link--no-visited-state"
-                    href={INDEX_PAGE}
-                    id="SessionEndedError-href"
-                    onKeyPress={(e) => e.key === 'Enter' && handleClick(e)}
-                    onClick={(e) => handleClick(e)}>
+                    data-testid="session-ended-error-href"
+                    id="session-ended-error-href"
+                    onClick={(e) => handleClick(e)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
+                    href={getInternalHref(INDEX_PAGE)}>
                     {sessionEndedStrings.linkText}
                 </a>
             </p>

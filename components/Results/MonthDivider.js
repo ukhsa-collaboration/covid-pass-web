@@ -9,7 +9,7 @@ const MonthDivider = ({ sortDate }) => {
     recordsPageStrings.setLanguage(getLanguage(user))
 
     return (
-        <div className="month-divider">
+        <div className="month-divider" data-testid="month-divider">
             {recordsPageStrings.monthNames[sortDate.getMonth()]} {sortDate.getFullYear()}
         </div>
     )

@@ -18,8 +18,8 @@ const DomesticExpired = () => {
         trackEvent('Domestic Expired Certificate Component Loaded')
     }, [])
 
-    const getPassType = (getPassType) => {
-        switch (getTwoPassStatus(getPassType)) {
+    const getPassType = (apiCache) => {
+        switch (getTwoPassStatus(apiCache)) {
             case mandatoryCerts.MandatoryVoluntaryOn:
                 return <DomesticExpiredMandatoryVoluntary />
             case mandatoryCerts.MandatoryOnly:

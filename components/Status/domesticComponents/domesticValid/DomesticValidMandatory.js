@@ -15,7 +15,9 @@ const DomesticValidMandatory = () => {
     return (
         <DomesticValidStatusTypeMandatoryVoluntary
             type={
-                <div className="status-verified status-verified-mandatory">
+                <div
+                    className="status-verified status-verified-mandatory"
+                    data-testid="status-verified-mandatory">
                     <div>
                         <TickIcon className="status-icon tick-icon " aria-hidden="true" />
                     </div>

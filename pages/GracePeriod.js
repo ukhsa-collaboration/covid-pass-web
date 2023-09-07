@@ -21,7 +21,7 @@ import { getDomesticFeatureToggle } from 'helpers/featureToggleHelper'
 
 const GracePeriod = () => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const featureToggle = useSelector((state) => state.featureToggleReducer.featureToggle)
 
@@ -59,7 +59,7 @@ const GracePeriod = () => {
 
     const getTimeLeft = () => {
         const time = user.userConfiguration.policies.gracePeriod.timeLeft
-        var [hours, minutes, seconds] = time.split(':')
+        const [hours, minutes, seconds] = time.split(':')
 
         return {
             hours: parseInt(hours),
@@ -95,7 +95,7 @@ const GracePeriod = () => {
 
     const temporaryAccessEndsIn = () => {
         const time = getTimeLeft()
-        var hours, minutes
+        let hours, minutes
 
         switch (true) {
             case time.hours > 1:
@@ -172,10 +172,12 @@ const GracePeriod = () => {
                     <PrimaryButton
                         text={gracePeriodStrings.unlockButton}
                         onClickAction={() => router.push(UNVERIFIED)}
+                        dataTestId="grace-period-unlock-button"
                     />
                     <SecondaryButton
                         text={gracePeriodStrings.skipButton}
                         onClickAction={() => router.push(SELECTED_FLOW)}
+                        dataTestId="grace-period-skip-button"
                     />
                 </div>
             </div>

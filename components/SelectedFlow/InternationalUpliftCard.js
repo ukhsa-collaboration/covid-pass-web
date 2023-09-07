@@ -10,7 +10,9 @@ const InternationalUpliftCard = () => {
 
     return getIdentityProofingLevel(user) === 'P5Plus' ||
         getIdentityProofingLevel(user) === 'P5' ? (
-        <div className="nhsuk-inset-text selected-flow-p5-travel">
+        <div
+            className="nhsuk-inset-text selected-flow-p5-travel"
+            data-testid="selected-flow-p5-travel">
             <p>
                 <span className="nhsuk-u-font-weight-bold">
                     {selectedFlowStrings.international.uplift.title}

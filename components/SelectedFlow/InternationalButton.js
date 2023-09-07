@@ -11,12 +11,13 @@ const InternationalButton = ({ onClick }) => {
         <div
             role="link"
             className="selected-flow-option"
+            data-testid="selectedFlow-option-international"
             id="selectedFlow-option-international"
-            onKeyPress={(e) => {
-                e.code === 'Enter' && onClick(e, 'international')
-            }}
             tabIndex={0}
-            onClick={(e) => onClick(e, 'international')}>
+            onClick={(e) => onClick(e, 'international')}
+            onKeyDown={(e) => {
+                e.key === 'Enter' && onClick(e, 'international')
+            }}>
             <h2 className="nhsuk-heading-m">{selectedFlowStrings.international.cardTitle}</h2>
 
             <p className="nhsuk-body">{selectedFlowStrings.international.cardText}</p>

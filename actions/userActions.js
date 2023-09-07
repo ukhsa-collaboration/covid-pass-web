@@ -6,27 +6,24 @@ import nhsStatusCodes from '../api/nhsStatusCodes'
  * Authenticate Endpoints
  */
 export const validateNHSCode = (code, redirectUri) => async () => {
-    const res = await API()
+    return API()
         .post('/auth/Token?code=' + code + '&redirectUri=' + redirectUri)
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const ssoLogin = (assertedLoginIdentity, redirectUri) => async () => {
     const url = getSSOUrl(assertedLoginIdentity, redirectUri)
-    const res = await API()
+    return API()
         .get(url)
         .catch((error) => {
             handleError(error)
         })
-    return res
 }
 
 export const reauthenticate = (refreshToken) => async () => {
-    const res = await API()
+    return API()
         .post('/auth/Token/Refresh', null, {
             headers: {
                 refreshToken: refreshToken
@@ -35,18 +32,14 @@ export const reauthenticate = (refreshToken) => async () => {
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const FetchAssertedLoginIdentity = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/auth/FetchAssertedLoginIdentity')
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 /*
@@ -70,17 +63,15 @@ export const getUserConfiguration = (token, tokenId) => async () => {
 }
 
 export const updateTCAcceptance = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .post('/auth/UpdateTCAcceptance')
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const updateLanguageCode = (token, tokenId, languageCode) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .post('/auth/UpdateLanguageCode', null, {
             headers: {
                 LanguageCode: languageCode
@@ -89,25 +80,21 @@ export const updateLanguageCode = (token, tokenId, languageCode) => async () => 
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 /*
  * Domestic Scenarios Endpoints
  */
 export const getCertificate = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/GetCertificate')
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const sendCertificate = (token, tokenId, email, language) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .post(
             '/SendCertificate',
             {
@@ -122,12 +109,10 @@ export const sendCertificate = (token, tokenId, email, language) => async () => 
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const pdfDirectDownload = (token, tokenId, language) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/PdfDirectDownload', {
             responseType: 'arraybuffer',
             headers: {
@@ -138,24 +123,21 @@ export const pdfDirectDownload = (token, tokenId, language) => async () => {
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 /*
  * International Scenarios Endpoints
  */
 export const getInternationalQR = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/international/GetInternationalQR')
         .catch((error) => {
             handleError(error)
         })
-    return res
 }
 
 export const GetInternationalPDF = (token, tokenId, language) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/international/GetInternationalPDF', {
             responseType: 'arraybuffer',
             headers: {
@@ -166,12 +148,10 @@ export const GetInternationalPDF = (token, tokenId, language) => async () => {
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const sendInternationalEmail = (token, tokenId, email, language) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .post(
             '/international/SendInternationalEmail',
             {
@@ -186,75 +166,64 @@ export const sendInternationalEmail = (token, tokenId, email, language) => async
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 /*
  * Records Endpoints
  */
 export const getTestResults = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/GetTestResults', {
             headers: { Authorization: 'Bearer ' + token }
         })
         .catch((error) => {
             handleError(error)
         })
-    return res
 }
 
 export const getMedicalExemptions = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/GetMedicalExemptions', {
             headers: { Authorization: 'Bearer ' + token }
         })
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const getVaccinationResults = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/GetVaccinationResults')
         .catch((error) => {
             handleError(error)
         })
-    return res
 }
 
 /*
  * Feature toggle endpoints
  */
 export const GetWalletTypes = (token, tokenId, device) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/GetWalletTypes', { headers: { Device: device } })
         .catch((error) => {
             handleError(error)
         })
-    return res
 }
 
 export const getPdfDownloadToggles = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/GetPdfDownloadToggles')
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const getDomesticEndpointStatusToggle = (token, tokenId) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/GetDomesticEndpointStatus')
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 /*
@@ -268,7 +237,7 @@ export const getDomesticEndpointStatusToggle = (token, tokenId) => async () => {
         2- Recovery Based International  
 */
 export const walletPassIos = (token, tokenId, QRType, DoseNumber, language) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/walletPassIos', {
             responseType: 'arraybuffer',
 
@@ -291,12 +260,10 @@ export const walletPassIos = (token, tokenId, QRType, DoseNumber, language) => a
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 export const walletPassGoogle = (token, tokenId, QRType, DoseNumber, language) => async () => {
-    const res = await API(token, tokenId)
+    return API(token, tokenId)
         .get('/walletPassGoogle', {
             headers:
                 QRType === 1 && DoseNumber !== null
@@ -315,13 +282,13 @@ export const walletPassGoogle = (token, tokenId, QRType, DoseNumber, language) =
         .catch((error) => {
             handleError(error)
         })
-
-    return res
 }
 
 const handleError = (error) => {
     if (error.code === 'ECONNABORTED') {
-        throw { response: { status: nhsStatusCodes.RequestTimeout } }
+        const customError = new Error('Request timed out')
+        customError.response = { status: nhsStatusCodes.RequestTimeout }
+        throw customError
     } else {
         throw error
     }

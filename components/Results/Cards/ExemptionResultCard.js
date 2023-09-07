@@ -5,7 +5,7 @@ import { getLanguage } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
 import { exemptionReason } from 'mappings/exemptions'
 
-const ExemptionResult = ({ value }) => {
+const ExemptionResultCard = ({ value }) => {
     const user = useSelector((state) => state.userReducer.user)
     resultsStrings.setLanguage(getLanguage(user))
 
@@ -153,7 +153,7 @@ const ExemptionResult = ({ value }) => {
     }
 
     return (
-        <div className="record-card">
+        <div className="record-card" data-testid="record-card">
             <div className="record-card__content">
                 <strong className="nhsuk-tag nhsuk-tag--blue">
                     {resultsStrings.ExemptionResultCard.tagText}
@@ -171,8 +171,8 @@ const ExemptionResult = ({ value }) => {
     )
 }
 
-ExemptionResult.propTypes = {
+ExemptionResultCard.propTypes = {
     value: PropTypes.object.isRequired
 }
 
-export default ExemptionResult
+export default ExemptionResultCard

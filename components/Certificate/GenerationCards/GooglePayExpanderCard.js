@@ -60,12 +60,13 @@ const GooglePayExpanderCard = () => {
             <div className="google-pay-expander-card link-bar">
                 <a
                     id="google-pay-expander-card-link-text"
+                    data-testid="google-pay-expander-card-link-text"
                     className="non-decoration-link-text link-bar__anchor"
                     role="button"
                     aria-label={googlePayExpanderCardStrings.accessibilityExpanderText1}
                     tabIndex={0}
                     aria-expanded={showMore}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                         e.key === 'Enter' && setShowMore(!showMore)
                     }}
                     onClick={() => setShowMore(!showMore)}>
@@ -87,11 +88,12 @@ const GooglePayExpanderCard = () => {
                 </a>
                 <a
                     id="google-pay-expander-card-link-icon"
+                    data-testid="google-pay-expander-card-link-icon"
                     role="button"
                     aria-label={googlePayExpanderCardStrings.accessibilityExpanderText1}
                     tabIndex={-1}
                     onClick={() => setShowMore(!showMore)}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                         e.key === 'Enter' && setShowMore(!showMore)
                     }}>
                     <ArrowIcon
@@ -116,7 +118,10 @@ const GooglePayExpanderCard = () => {
                                             className="google-pay-expander-card__see-more-container__international__value"
                                             key={index}>
                                             {index > 0 ? (
-                                                <hr className="nhsuk-section-break nhsuk-section-break--visible" />
+                                                <hr
+                                                    className="nhsuk-section-break nhsuk-section-break--visible"
+                                                    data-testid="google-pay-expander-card-horizontal-rule-international"
+                                                />
                                             ) : null}
                                             <p className="nhsuk-body nhsuk-u-margin-bottom-0">
                                                 <span className="nhsuk-u-font-weight-bold">
@@ -164,12 +169,18 @@ const GooglePayExpanderCard = () => {
         )
     }
 
-    return showGoogleWallet() ? (
+    if (!showGoogleWallet()) {
+        return null
+    }
+
+    if (
         featureToggle.googleWallet.includes('recovery') ||
-        featureToggle.googleWallet.includes('international') ? (
-            <GoogleWalletContent />
-        ) : null
-    ) : null
+        featureToggle.googleWallet.includes('international')
+    ) {
+        return <GoogleWalletContent />
+    }
+
+    return null
 }
 
 export default GooglePayExpanderCard

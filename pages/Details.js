@@ -10,18 +10,22 @@ import {
 } from 'localization/translations'
 import TimeoutAlert from 'components/Alerts/TimeoutAlert'
 import BackButton from 'components/buttons/BackButton'
-import { getName, getDateFormattedDOB } from 'helpers/userHelper'
+import {
+    getName,
+    getDateFormattedDOB,
+    getIdentityProofingLevel,
+    getLanguage
+} from 'helpers/userHelper'
 import Head from 'next/head'
 import { getUserToken, getUserPreferenceSelectedFlow } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY, LANGUAGE_CODES } from 'constants/index'
 import Carousel from 'components/Carousel/Carousel'
-import { getIdentityProofingLevel, getLanguage } from 'helpers/userHelper'
 
 const Details = () => {
     const router = useRouter()
     const user = useSelector((state) => state.userReducer.user)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const featureToggle = useSelector((state) => state.featureToggleReducer.featureToggle)
 

@@ -50,7 +50,7 @@ export const getSSOUrl = (assertedLoginIdentity, redirectUri) => {
 }
 
 export const upliftUrl = (assertedLoginIdentity, redirectUri) => {
-    let upliftUrl = uriBuilder(authSettings.authority + '/authorize', [
+    return uriBuilder(authSettings.authority + '/authorize', [
         { key: 'client_id', value: authSettings.clientId },
         { key: 'scope', value: authSettings.scope },
         { key: 'response_type', value: authSettings.responseType },
@@ -58,7 +58,6 @@ export const upliftUrl = (assertedLoginIdentity, redirectUri) => {
         { key: 'redirect_uri', value: redirectUri },
         { key: 'prompt', value: 'none' }
     ])
-    return upliftUrl
 }
 
 export const checkCacheUnixTime = (cacheUnixTime) => {

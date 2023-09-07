@@ -81,7 +81,7 @@ const AppWrapper = ({ Component, pageProps }) => {
 const CovidPassApp = ({ Component, pageProps }) => {
     const router = useRouter()
     const dispatch = useDispatch()
-    var unload = require('unload')
+    const unload = require('unload')
     const { routeThenEndSession } = useEndUserSession()
 
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
@@ -171,7 +171,7 @@ const CovidPassApp = ({ Component, pageProps }) => {
         return () => clearInterval(interval)
     }, [cookies])
 
-    var loadingRefreshTokenPrevValue = null
+    let loadingRefreshTokenPrevValue = null
     const getRefreshTokenRes = async (refreshToken) => {
         const remainingUnix = remainingUnixRefreshTime(getUserExpiresInUnix(cookies))
         if (!loadingRefreshToken && loadingRefreshTokenPrevValue !== remainingUnix) {
@@ -228,7 +228,7 @@ const CovidPassApp = ({ Component, pageProps }) => {
     /*
      * refresh token for when the user is in a TMP state while in the SSO process
      */
-    var tmpSsoInterval
+    let tmpSsoInterval
 
     useEffect(() => {
         if (nhsApp.tmpUserToken) {

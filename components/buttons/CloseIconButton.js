@@ -10,6 +10,7 @@ const CloseIconButton = ({ onClickFunction, ariaExpanded = null }) => {
             type="button"
             aria-controls="header-navigation"
             aria-label="Close menu"
+            data-testid="close-button-icon"
             {...ariaProps}
             className="nhs-close-button nhsuk-focus-color"
             onClick={onClickFunction}>

@@ -7,7 +7,7 @@ import nhsStatusCodes from 'api/nhsStatusCodes'
 import { useRouter } from 'next/router'
 import GooglePayButton from 'components/buttons/GooglePayButton'
 import { showGoogleWallet } from 'helpers/walletHelper'
-import { checkCacheUnixTime } from 'helpers/auth'
+import { checkCacheUnixTime, uuidCookieReduxNotMatching } from 'helpers/auth'
 import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { CACHE_GOOGLE_WALLET_DOMESTIC_URL } from 'actions/types'
 import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
@@ -15,7 +15,6 @@ import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import { getLanguage } from 'helpers/userHelper'
 import { certificateTypeToText } from 'helpers/certificateHelper'
-import { uuidCookieReduxNotMatching } from 'helpers/auth'
 import useEndUserSession from 'hooks/useEndUserSession'
 
 const GooglePayCertificateGeneration = ({ QRType, DoseNumber = null }) => {
@@ -23,7 +22,7 @@ const GooglePayCertificateGeneration = ({ QRType, DoseNumber = null }) => {
     const dispatch = useDispatch()
     const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
 
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
 

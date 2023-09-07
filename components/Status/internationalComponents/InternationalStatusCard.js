@@ -11,14 +11,15 @@ import { statusCardStrings } from 'localization/translations'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY, LANGUAGE_CODES } from 'constants/index'
 import { uuidCookieReduxNotMatching } from 'helpers/auth'
+import { getInternalHref } from 'helpers/index'
 import useEndUserSession from 'hooks/useEndUserSession'
 
-const StatusCard = ({ certificateStatus }) => {
+const InternationalStatusCard = ({ certificateStatus }) => {
     const router = useRouter()
     const { mismatchedUuidEndSession } = useEndUserSession()
 
     const user = useSelector((state) => state.userReducer.user)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
 
     statusCardStrings.setLanguage(getLanguage(user))
 
@@ -33,18 +34,15 @@ const StatusCard = ({ certificateStatus }) => {
         trackEvent('Show details - Button click')
     }
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            viewYourRecords(event)
-        }
-    }
-
     const internationalCard = () => {
         return (
             <div
                 className={
                     'status ' + (certificateStatus ? 'status-verified' : 'status-not-verified')
-                }>
+                }
+                data-testid={`status-card_${
+                    certificateStatus ? 'status-verified' : 'status-not-verified'
+                }`}>
                 {certificateStatus ? (
                     <TickIcon className="status-icon tick-icon " aria-hidden="true" />
                 ) : null}
@@ -63,12 +61,13 @@ const StatusCard = ({ certificateStatus }) => {
                             </h3>
                             <a
                                 className="non-decoration-link-text"
+                                data-testid="international-view-your-records-link"
                                 aria-label={statusCardStrings.ariaLabelShowDetailsButton}
                                 onClick={(e) => viewYourRecords(e)}
-                                onKeyPress={(e) => {
-                                    handleKeyPress(e)
+                                onKeyDown={(e) => {
+                                    e.key === 'Enter' && viewYourRecords(e)
                                 }}
-                                href={DETAILS}>
+                                href={getInternalHref(DETAILS)}>
                                 <span className="view-your-records-btn nhsuk-u-font-size-16 nhsuk-u-font-weight-bold">
                                     {statusCardStrings.details}&nbsp;
                                     <ArrowIcon className="view-records-icon icon-arrow-right" />
@@ -123,8 +122,8 @@ const StatusCard = ({ certificateStatus }) => {
     )
 }
 
-StatusCard.propTypes = {
+InternationalStatusCard.propTypes = {
     certificateStatus: PropTypes.bool.isRequired
 }
 
-export default StatusCard
+export default InternationalStatusCard

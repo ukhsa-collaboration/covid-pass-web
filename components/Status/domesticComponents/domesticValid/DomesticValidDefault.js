@@ -14,7 +14,7 @@ const DomesticValidDefault = () => {
     domesticPageStrings.setLanguage(getLanguage(user))
 
     return (
-        <div className="qr-code-container">
+        <div className="qr-code-container" data-testid="status-verified-default">
             <p className="nhsuk-u-margin-bottom-0" id="covid-records-domestic-details-expiry-text">
                 {domesticPageStrings.validCertificate.default.attendUntil}
                 {getLanguage(user) === LANGUAGE_CODES.cy ? (

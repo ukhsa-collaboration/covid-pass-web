@@ -1,9 +1,8 @@
 import React from 'react'
 import { domesticPageStrings } from 'localization/translations'
-import { getLanguage } from 'helpers/userHelper'
+import { getLanguage, getIdentityProofingLevel } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
 import ViewRecordsButton from 'components/buttons/ViewRecordsButton'
-import { getIdentityProofingLevel } from 'helpers/userHelper'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 
 const DomesticNoCertificateMandatory = () => {
@@ -11,7 +10,7 @@ const DomesticNoCertificateMandatory = () => {
     domesticPageStrings.setLanguage(getLanguage(user))
 
     return (
-        <div>
+        <div data-testid="domestic-no-certificate-mandatory">
             <h1 className="nhsuk-heading-xl">{domesticPageStrings.onePassNoRecords.heading}</h1>
             <div>
                 <p className="nhsuk-body nhsuk-u-margin-bottom-1">

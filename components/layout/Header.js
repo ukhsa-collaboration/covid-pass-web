@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getLanguage, checkValidUserDetails } from 'helpers/userHelper'
 import { getUserToken } from 'helpers/cookieHelper'
+import { getInternalHref } from 'helpers/index'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import { headerStrings } from 'localization/translations'
@@ -13,7 +14,7 @@ import NhsSvgLogo from 'components/icons/NhsSvgLogo'
 
 const Header = () => {
     const [isMenuActive, setActive] = useState(false)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const isLetterService = useIsLetterServiceUrlQuery()
 
@@ -26,8 +27,8 @@ const Header = () => {
     }
 
     const srSpeak = (text, priority) => {
-        var el = document.createElement('div')
-        var id = 'speak-' + Date.now()
+        let el = document.createElement('div')
+        let id = 'speak-' + Date.now()
         el.setAttribute('id', id)
         el.setAttribute('aria-live', priority || 'polite')
         el.classList.add('nhsuk-u-visually-hidden')
@@ -57,7 +58,8 @@ const Header = () => {
                         ) : (
                             <a
                                 className="nhsuk-header__link nhsuk-header__link--service "
-                                href={INDEX_PAGE}
+                                data-testid="header-service-logo-link"
+                                href={getInternalHref(INDEX_PAGE)}
                                 aria-label={headerStrings.logo.ariaLabel}
                                 tabIndex={isMenuActive ? '-1' : null}>
                                 <NhsSvgLogo linkToStart />
@@ -66,13 +68,16 @@ const Header = () => {
                     </div>
                     <div className="nhsuk-header__transactional-service-name">
                         {isLetterService ? (
-                            <span className="nhsuk-header__transactional-service-name--link nhsuk-header__transactional-service-name--letter-service-custom">
+                            <span
+                                className="nhsuk-header__transactional-service-name--link nhsuk-header__transactional-service-name--letter-service-custom"
+                                data-testid="header-service-name-non-link">
                                 {headerStrings.title}
                             </span>
                         ) : (
                             <a
                                 className="nhsuk-header__transactional-service-name--link"
-                                href={INDEX_PAGE}>
+                                data-testid="header-service-name-link"
+                                href={getInternalHref(INDEX_PAGE)}>
                                 {headerStrings.title}
                             </a>
                         )}
@@ -92,6 +97,7 @@ const Header = () => {
                             <button
                                 onClick={handleMenuClick}
                                 className="nhsuk-header__menu-toggle"
+                                data-testid="toggle-menu"
                                 id="toggle-menu"
                                 aria-controls={headerStrings.menu.ariaControls}
                                 aria-label={headerStrings.menu.ariaLabel}

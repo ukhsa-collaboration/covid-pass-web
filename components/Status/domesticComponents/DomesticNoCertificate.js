@@ -18,8 +18,8 @@ const DomesticNoCertificate = () => {
         trackEvent('Domestic No Certificate Component Loaded')
     }, [])
 
-    const getPassType = (getPassType) => {
-        switch (getTwoPassStatus(getPassType)) {
+    const getPassType = (apiCache) => {
+        switch (getTwoPassStatus(apiCache)) {
             case mandatoryCerts.MandatoryVoluntaryOn:
                 return <DomesticNoCertificateMandatoryVoluntary />
             case mandatoryCerts.MandatoryOnly:

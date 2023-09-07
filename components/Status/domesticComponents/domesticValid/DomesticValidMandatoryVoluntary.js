@@ -11,7 +11,9 @@ const DomesticValidMandatoryVoluntary = () => {
     return (
         <DomesticValidStatusTypeMandatoryVoluntary
             type={
-                <div className="status-verified status-verified-voluntary">
+                <div
+                    className="status-verified status-verified-voluntary"
+                    data-testid="status-verified-voluntary">
                     <div className="status-verified-voluntary__text-container">
                         <strong>
                             {

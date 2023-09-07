@@ -11,7 +11,7 @@ import { SESSION_ENDED } from 'constants/routes'
 const WindowCookieReduxMatchHandler = () => {
     const router = useRouter()
     const dispatch = useDispatch()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const [inFocusFunction, setInFocusFunction] = useState(false)
 

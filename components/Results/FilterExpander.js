@@ -13,7 +13,7 @@ const FilterExpander = ({ filters }) => {
     recordsPageStrings.setLanguage(getLanguage(user))
 
     return (
-        <div className="filter-expander">
+        <div className="filter-expander" data-testid="filter-expander">
             <div className="filter-expander__content">
                 <div
                     role="button"
@@ -22,9 +22,10 @@ const FilterExpander = ({ filters }) => {
                     className={
                         'filter-expander-heading-container ' + (expanded ? 'expanded' : 'collapsed')
                     }
+                    data-testid="filter-expander_click-action"
                     onClick={() => setExpanded(!expanded)}
-                    onKeyPress={(e) => {
-                        e.code === 'Enter' && setExpanded(!expanded)
+                    onKeyDown={(e) => {
+                        e.key === 'Enter' && setExpanded(!expanded)
                     }}>
                     <h3 className="filter-expander__heading">{recordsPageStrings.filter.title}</h3>
                     {expanded ? (

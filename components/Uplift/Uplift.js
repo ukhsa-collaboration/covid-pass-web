@@ -2,16 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
-import { trackEvent } from 'helpers/appInsights'
 import nhsStatusCodes from 'api/nhsStatusCodes'
+import { trackEvent } from 'helpers/appInsights'
 import { isNhsAppNative, goToNhsUplift } from 'helpers/isNhsApp'
-import { upliftUrl, checkCacheUnixTime } from 'helpers/auth'
+import { upliftUrl, checkCacheUnixTime, uuidCookieReduxNotMatching } from 'helpers/auth'
+import { getNhsLoginRedirectUri } from 'helpers/index'
+import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
 import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { FetchAssertedLoginIdentity } from 'actions/userActions'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
-import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
-import { uuidCookieReduxNotMatching } from 'helpers/auth'
 import useEndUserSession from 'hooks/useEndUserSession'
 
 const Uplift = ({ elements, page }) => {
@@ -20,7 +20,7 @@ const Uplift = ({ elements, page }) => {
     const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
 
     const user = useSelector((state) => state.userReducer.user)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
 
     const handleUpliftClick = (event) => {
         event.preventDefault()
@@ -46,7 +46,7 @@ const Uplift = ({ elements, page }) => {
 
                 if (res.status === nhsStatusCodes.Success) {
                     if (window.location) {
-                        const redirectUri = window.location.origin + '/'
+                        const redirectUri = getNhsLoginRedirectUri()
                         const assertedLoginIdentity = res.data
                         let redirectLink = upliftUrl(assertedLoginIdentity, redirectUri)
                         window.location.href = redirectLink
@@ -77,11 +77,12 @@ const Uplift = ({ elements, page }) => {
     return (
         <span
             onClick={(e) => handleUpliftClick(e)}
-            onKeyPress={(e) => {
-                e.code === 'Enter' && handleUpliftClick(e)
+            onKeyDown={(e) => {
+                e.key === 'Enter' && handleUpliftClick(e)
             }}
             role="button"
             tabIndex={0}
+            data-testid="uplift-click-container"
             id="uplift-click-container">
             {elements}
         </span>

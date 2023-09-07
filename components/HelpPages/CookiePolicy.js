@@ -5,16 +5,14 @@ import { cookiePolicyPageStrings } from 'localization/cookiesTranslations'
 import BackButton from 'components/buttons/BackButton'
 import TimeoutAlert from 'components/Alerts/TimeoutAlert'
 import { useSelector } from 'react-redux'
-import DetailsExpander from 'components/contentPresentation/DetailsExpander'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import { getUserToken } from 'helpers/cookieHelper'
 import { getLanguage } from 'helpers/userHelper'
 import Head from 'next/head'
-import ExternalLink from 'components/contentPresentation/ExternalLink'
 
 const CookiePolicy = ({ showBackButton = true }) => {
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
 
     timeoutAlertStrings.setLanguage(getLanguage(user))

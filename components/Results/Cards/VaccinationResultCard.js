@@ -7,7 +7,7 @@ import { getFormattedDateTimeEuropeLondonNoHours } from 'helpers/dateHelper'
 import { getLanguage } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
 
-const VaccinationResult = ({ value }) => {
+const VaccinationResultCard = ({ value }) => {
     const [moreDetails, setMoreDetails] = React.useState(false)
     const user = useSelector((state) => state.userReducer.user)
 
@@ -18,7 +18,7 @@ const VaccinationResult = ({ value }) => {
     }
 
     return (
-        <div className="record-card">
+        <div className="record-card" data-testid="record-card">
             <div className="record-card__content">
                 <strong className="nhsuk-tag nhsuk-tag--blue">
                     {resultsStrings.VaccinationResultCard.tagText}
@@ -28,11 +28,12 @@ const VaccinationResult = ({ value }) => {
                     tabIndex={0}
                     aria-expanded={moreDetails}
                     className="vaccination-card-heading-container"
-                    onClick={() => moreDetailsClick()}
-                    onKeyPress={(e) => {
+                    data-testid="vaccination-card-heading-container"
+                    onClick={moreDetailsClick}
+                    onKeyDown={(e) => {
                         e.key === 'Enter' && moreDetailsClick()
                     }}>
-                    <h3 className="record-card__heading">
+                    <h3 className="record-card__heading" data-testid="vaccination-card-heading">
                         {value['displayName']}
                         {value['isBooster'] ? (
                             <>&nbsp;{resultsStrings.VaccinationResultCard.booster}</>
@@ -47,7 +48,7 @@ const VaccinationResult = ({ value }) => {
                 </div>
 
                 {moreDetails ? (
-                    <div className="vaccination-card-table">
+                    <div className="vaccination-card-table" data-testid="vaccination-card-table">
                         <VaccinationResultCardInfoRow
                             title={resultsStrings.VaccinationResultCard.dose}
                             data={`${value['doseNumber']} ${resultsStrings.VaccinationResultCard.doseOf} ${value['totalSeriesOfDoses']}`}
@@ -90,7 +91,9 @@ const VaccinationResult = ({ value }) => {
                         />
                     </div>
                 ) : (
-                    <p className="record-card__description">
+                    <p
+                        className="record-card__description"
+                        data-testid="vaccination-card-description">
                         {`${resultsStrings.VaccinationResultCard.dose} ${value['doseNumber']} ${resultsStrings.VaccinationResultCard.doseOf} ${value['totalSeriesOfDoses']}`}
                     </p>
                 )}
@@ -99,7 +102,8 @@ const VaccinationResult = ({ value }) => {
                     className={
                         'record-card__type ' +
                         (moreDetails ? 'record-card__vaccination-expanded' : '')
-                    }>
+                    }
+                    data-testid="vaccination-card-date">
                     <span className="nhsuk-u-font-weight-bold">
                         {resultsStrings.VaccinationResultCard.vaccinationDate_domestic}
                     </span>
@@ -114,8 +118,8 @@ const VaccinationResult = ({ value }) => {
     )
 }
 
-VaccinationResult.propTypes = {
+VaccinationResultCard.propTypes = {
     value: PropTypes.object.isRequired
 }
 
-export default VaccinationResult
+export default VaccinationResultCard

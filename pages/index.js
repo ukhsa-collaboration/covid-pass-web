@@ -20,7 +20,8 @@ import {
 } from 'actions/userActions'
 import LoadingPage from 'components/LoadingSpinner/LoadingPage'
 import StartPage from 'components/StartPage/StartPage'
-import { ageIsValid } from '../helpers/validations'
+import { ageIsValid } from 'helpers/validations'
+import { getNhsLoginRedirectUri } from 'helpers/index'
 import { useCookies } from 'react-cookie'
 import {
     getIdentityProofingLevel,
@@ -64,11 +65,11 @@ const Home = () => {
         }
     }, [code, cookies, nhsApp.tmpUserToken])
 
-    const validateCode = async (code) => {
+    const validateCode = async (nhsCode) => {
         if (window.location) {
-            const redirectUri = window.location.origin + '/'
+            const redirectUri = getNhsLoginRedirectUri()
             try {
-                const accessTokenRes = await dispatch(validateNHSCode(code, redirectUri))
+                const accessTokenRes = await dispatch(validateNHSCode(nhsCode, redirectUri))
                 dispatch({
                     type: ADD_TMP_USER_TOKEN,
                     payload: accessTokenRes.data

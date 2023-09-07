@@ -11,8 +11,9 @@ const GooglePayButton = ({ onClick }) => {
     return (
         <button
             className="google-pay-button"
-            onClick={() => onClick()}
-            onKeyPress={(e) => {
+            data-testid="google-pay-button"
+            onClick={onClick}
+            onKeyDown={(e) => {
                 e.key === 'Enter' && onClick()
             }}
             tabIndex={0}

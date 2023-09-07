@@ -7,7 +7,9 @@ const DomesticToggleOffCard = () => {
     selectedFlowStrings.setLanguage(getLanguage(user))
 
     return (
-        <div className="nhsuk-inset-text selected-flow-p5-travel">
+        <div
+            className="nhsuk-inset-text selected-flow-p5-travel"
+            data-testid="domestic-toggle-off-card">
             <p id="paragraph-domestic-toggle-off">{selectedFlowStrings.domestic.toggleOff.text1}</p>
         </div>
     )

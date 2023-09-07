@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { trackPageView } from 'helpers/appInsights'
+import { trackPageView, trackEvent } from 'helpers/appInsights'
 import { gotoHomepage, isNhsAppNative } from 'helpers/isNhsApp'
-import { trackEvent } from 'helpers/appInsights'
+import { getInternalHref } from 'helpers/index'
 import { INDEX_PAGE, SESSION_EXPIRED } from 'constants/routes'
 import { SessionExpiredStrings } from 'localization/translations'
 import { getLanguage } from 'helpers/userHelper'
@@ -41,10 +41,11 @@ const SessionExpired = () => {
                 {SessionExpiredStrings.body1}
                 <a
                     className="nhsuk-link nhsuk-link--no-visited-state"
-                    href={INDEX_PAGE}
-                    id="fourHundredError-href"
-                    onKeyPress={(e) => e.key === 'Enter' && handleClick(e)}
-                    onClick={(e) => handleClick(e)}>
+                    data-testid="session-expired-error-href"
+                    id="session-expired-error-href"
+                    onClick={(e) => handleClick(e)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
+                    href={getInternalHref(INDEX_PAGE)}>
                     {SessionExpiredStrings.linkText}
                 </a>
                 &nbsp;{SessionExpiredStrings.body2}

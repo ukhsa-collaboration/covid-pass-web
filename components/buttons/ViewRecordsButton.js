@@ -24,13 +24,14 @@ const ViewRecordsButton = () => {
             <div
                 className="link-bar_div non-decoration-link-text"
                 id="view-records-button-link-bar"
+                data-testid="view-records-button-link-bar"
                 role="button"
                 tabIndex={0}
                 aria-label={button.viewCovidRecordsAriaLabel}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                     e.key === 'Enter' && handleClick()
                 }}
-                onClick={() => handleClick()}>
+                onClick={handleClick}>
                 <span className="hover-text-container">
                     <div className="link-bar-flex-container">
                         <RecordsIcon className="card-link-icon" />

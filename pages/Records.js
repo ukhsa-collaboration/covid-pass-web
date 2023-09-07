@@ -16,7 +16,7 @@ import { getIdentityProofingLevel, getLanguage } from 'helpers/userHelper'
 const Records = () => {
     const router = useRouter()
     const user = useSelector((state) => state.userReducer.user)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
 
     recordsPageStrings.setLanguage(getLanguage(user))

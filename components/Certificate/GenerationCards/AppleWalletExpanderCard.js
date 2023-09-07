@@ -58,12 +58,13 @@ const AppleWalletExpanderCard = () => {
             <div className="apple-wallet-expander-card link-bar">
                 <a
                     id="apple-wallet-expander-card-link-text"
+                    data-testid="apple-wallet-expander-card-link-text"
                     className="non-decoration-link-text link-bar__anchor"
                     role="button"
                     aria-label={appleWalletExpanderCardStrings.accessibilityExpanderText1}
                     tabIndex={0}
                     aria-expanded={showMore}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                         e.key === 'Enter' && setShowMore(!showMore)
                     }}
                     onClick={() => setShowMore(!showMore)}>
@@ -85,11 +86,12 @@ const AppleWalletExpanderCard = () => {
                 </a>
                 <a
                     id="apple-wallet-expander-card-link-icon"
+                    data-testid="apple-wallet-expander-card-link-icon"
                     role="button"
                     aria-label={appleWalletExpanderCardStrings.accessibilityExpanderText1}
                     tabIndex={-1}
                     onClick={() => setShowMore(!showMore)}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                         e.key === 'Enter' && setShowMore(!showMore)
                     }}>
                     <ArrowIcon
@@ -113,7 +115,10 @@ const AppleWalletExpanderCard = () => {
                                             className="apple-wallet-expander-card__see-more-container__international__value"
                                             key={index}>
                                             {index > 0 ? (
-                                                <hr className="nhsuk-section-break nhsuk-section-break--visible" />
+                                                <hr
+                                                    className="nhsuk-section-break nhsuk-section-break--visible"
+                                                    data-testid="apple-wallet-expander-card-horizontal-rule-international"
+                                                />
                                             ) : null}
                                             <p className="nhsuk-body nhsuk-u-margin-bottom-0 break-word-wrap">
                                                 <span className="nhsuk-u-font-weight-bold">
@@ -143,7 +148,10 @@ const AppleWalletExpanderCard = () => {
                         userApiCache.certificate.recovery.status ? (
                             <div className="apple-wallet-expander-card__see-more-container__recovery">
                                 {userApiCache.certificate.international.status ? (
-                                    <hr className="nhsuk-section-break nhsuk-section-break--visible" />
+                                    <hr
+                                        className="nhsuk-section-break nhsuk-section-break--visible"
+                                        data-testid="apple-wallet-expander-card-horizontal-rule-recovery"
+                                    />
                                 ) : null}
                                 <p className="nhsuk-body nhsuk-u-margin-bottom-0 break-word-wrap">
                                     <span className="nhsuk-u-font-weight-bold">
@@ -160,11 +168,18 @@ const AppleWalletExpanderCard = () => {
         )
     }
 
-    return showAppleWallet() ? (
+    if (!showAppleWallet()) {
+        return null
+    }
+
+    if (
         featureToggle.appleWallet.includes('recovery') ||
-        featureToggle.appleWallet.includes('international') ? (
-            <AppleWalletContent />
-        ) : null
-    ) : null
+        featureToggle.appleWallet.includes('international')
+    ) {
+        return <AppleWalletContent />
+    }
+
+    return null
 }
+
 export default AppleWalletExpanderCard

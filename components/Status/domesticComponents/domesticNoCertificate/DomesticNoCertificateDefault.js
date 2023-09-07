@@ -9,7 +9,7 @@ const DomesticNoCertificateDefault = () => {
     domesticPageStrings.setLanguage(getLanguage(user))
 
     return (
-        <div>
+        <div data-testid="domestic-no-certificate-default">
             <div>
                 <h1 className="nhsuk-heading-xl">
                     {domesticPageStrings.noCertificateAndExpired.headingNoCertificate}

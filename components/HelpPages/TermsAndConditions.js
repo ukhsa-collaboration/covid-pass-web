@@ -18,11 +18,11 @@ import { getLanguage } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 import useIsLetterServiceUrlQuery from 'hooks/useIsLetterServiceUrlQuery'
-import { addInternalRouteWithExternalResourceLetter } from 'helpers/index'
+import { addInternalRouteWithExternalResourceLetter, getInternalHref } from 'helpers/index'
 
 const TermsAndConditions = ({ showBackButton = true }) => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const isLetterService = useIsLetterServiceUrlQuery()
 
@@ -173,13 +173,16 @@ const TermsAndConditions = ({ showBackButton = true }) => {
                             <ol>
                                 <li className="terms-and-conditions-list__list-item__sub-item">
                                     {helpTermsAndConditions.main.list4.subListItem1.text1}
-                                    <a
+                                    <ExternalLink
                                         href={
                                             helpTermsAndConditions.main.list4.subListItem1.link1
                                                 .href
-                                        }>
-                                        {helpTermsAndConditions.main.list4.subListItem1.link1.text}
-                                    </a>
+                                        }
+                                        text={
+                                            helpTermsAndConditions.main.list4.subListItem1.link1
+                                                .text
+                                        }
+                                    />
                                     {helpTermsAndConditions.main.list4.subListItem1.text2}
                                 </li>
                                 <li className="terms-and-conditions-list__list-item__sub-item">
@@ -216,24 +219,27 @@ const TermsAndConditions = ({ showBackButton = true }) => {
                                     {helpTermsAndConditions.main.list6.subListItem1.text1}
                                     <a
                                         onClick={(e) => onClickPrivacyNotice(e)}
-                                        href={HELP_PRIVACY_NOTICE}
+                                        href={getInternalHref(HELP_PRIVACY_NOTICE)}
                                         id="tc-link-to-privacy-notice-link"
+                                        data-testid="tc-link-to-privacy-notice-link"
                                         className="nhsuk-link nhsuk-link--no-visited-state-link">
                                         {helpTermsAndConditions.main.list6.subListItem1.link1.text}
                                     </a>
                                     {helpTermsAndConditions.main.list6.subListItem1.text2}
                                     <a
                                         onClick={(e) => onClickPrivacyNoticeUnderSixteen(e)}
-                                        href={HELP_PRIVACY_NOTICE_UNDER_SIXTEEN}
+                                        href={getInternalHref(HELP_PRIVACY_NOTICE_UNDER_SIXTEEN)}
                                         id="tc-link-to-privacy-notice-under-16-link"
+                                        data-testid="tc-link-to-privacy-notice-under-16-link"
                                         className="nhsuk-link nhsuk-link--no-visited-state-link">
                                         {helpTermsAndConditions.main.list6.subListItem1.link2.text}
                                     </a>
                                     {helpTermsAndConditions.main.list6.subListItem1.text2a}
                                     <a
                                         onClick={(e) => onClickPrivacyNotice5to11(e)}
-                                        href={HELP_PRIVACY_NOTICE_5_to_11}
+                                        href={getInternalHref(HELP_PRIVACY_NOTICE_5_to_11)}
                                         id="tc-link-to-privacy-notice-5-11-link"
+                                        data-testid="tc-link-to-privacy-notice-5-11-link"
                                         className="nhsuk-link nhsuk-link--no-visited-state-link">
                                         {helpTermsAndConditions.main.list6.subListItem1.link2a.text}
                                     </a>

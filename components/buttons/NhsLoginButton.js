@@ -26,6 +26,7 @@ const NhsLoginButton = ({ onClickAction, extraClasses }) => {
                 extraClasses
             }
             type="button"
+            data-testid="nhsuk-login-button"
             aria-label={button.nhsLoginLabel}
             onClick={onClickAction}
             onFocus={onFocus}

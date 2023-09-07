@@ -16,11 +16,11 @@ import { useSelector } from 'react-redux'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 import Head from 'next/head'
 import useIsLetterServiceUrlQuery from 'hooks/useIsLetterServiceUrlQuery'
-import { addInternalRouteWithExternalResourceLetter } from 'helpers/index'
+import { addInternalRouteWithExternalResourceLetter, getInternalHref } from 'helpers/index'
 
 const PrivacyNotice = ({ showBackButton = true }) => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const isLetterService = useIsLetterServiceUrlQuery()
 
@@ -284,8 +284,9 @@ const PrivacyNotice = ({ showBackButton = true }) => {
                     <a
                         onClick={(e) => onClickPrivacyNoticeUnderSixteen(e)}
                         target="_blank"
-                        href={HELP_PRIVACY_NOTICE_UNDER_SIXTEEN}
+                        href={getInternalHref(HELP_PRIVACY_NOTICE_UNDER_SIXTEEN)}
                         id="privacy-notice-under-16-link"
+                        data-testid="privacy-notice-under-16-link"
                         className="nhsuk-link nhsuk-link--no-visited-state-link">
                         {helpPrivacyNotice.accessingCovidPass.letterRequest.link4.text}
                     </a>
@@ -1162,8 +1163,9 @@ const PrivacyNotice = ({ showBackButton = true }) => {
                     {helpPrivacyNotice.whereIsMyDataHeld.textgroup11.text1}
                     <a
                         onClick={(e) => onClickCookiePolicy(e)}
-                        href={HELP_COOKIE_POLICY}
+                        href={getInternalHref(HELP_COOKIE_POLICY)}
                         id="privacy-notice-cookie-policy-link"
+                        data-testid="privacy-notice-cookie-policy-link"
                         className="nhsuk-link nhsuk-link--no-visited-state-link">
                         {helpPrivacyNotice.whereIsMyDataHeld.textgroup11.link1.text}
                     </a>

@@ -4,6 +4,7 @@ import { trackPageView } from 'helpers/appInsights'
 import { SELECTED_FLOW, TIMEOUT_ERROR } from 'constants/routes'
 import { logoutErrorPageStrings } from 'localization/translations'
 import { getLanguage } from 'helpers/userHelper'
+import { getInternalHref } from 'helpers/index'
 import { useSelector } from 'react-redux'
 import Head from 'next/head'
 
@@ -33,10 +34,11 @@ const TimeoutError = () => {
 
             <a
                 className="nhsuk-link nhsuk-link--no-visited-state"
-                href={SELECTED_FLOW}
-                id="Timeout-href"
-                onKeyPress={(e) => e.key === 'Enter' && handleClick(e)}
-                onClick={handleClick}>
+                data-testid="timeout-href"
+                id="timeout-href"
+                onClick={handleClick}
+                onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
+                href={getInternalHref(SELECTED_FLOW)}>
                 {logoutErrorPageStrings.linkText1}
             </a>
         </div>

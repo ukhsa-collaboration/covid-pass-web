@@ -1,4 +1,3 @@
-import router from 'next/router'
 import LocalizedStrings from 'react-localization'
 export const HELP_PRIVACY_NOTICE = '/help/privacy-notice'
 

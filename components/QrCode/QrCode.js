@@ -18,6 +18,7 @@ const QrCode = ({ qrString, className }) => {
             className={className ? className : 'qr-svg' + (isIE ? ' qr-svg-ie' : '')}
             size={270}
             level="M"
+            data-testid="qr-svg"
         />
     ) : null
 }

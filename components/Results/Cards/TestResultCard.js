@@ -5,7 +5,7 @@ import { getLanguage } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
 import { LANGUAGE_CODES } from 'constants/index'
 
-const TestResult = ({ value }) => {
+const TestResultCard = ({ value }) => {
     const user = useSelector((state) => state.userReducer.user)
     resultsStrings.setLanguage(getLanguage(user))
 
@@ -30,7 +30,7 @@ const TestResult = ({ value }) => {
     }
 
     return (
-        <div className="record-card">
+        <div className="record-card" data-testid="record-card">
             <div className="record-card__content">
                 <h3 className="record-card__heading">
                     {getLanguage(user) === LANGUAGE_CODES.cy
@@ -38,7 +38,7 @@ const TestResult = ({ value }) => {
                         : value['validityType'] + ' ' + resultsStrings.TestResultCard.head1}
                 </h3>
                 {resultsDesc}
-                <p className="record-card__type">
+                <p className="record-card__type" data-testid="test-record-card_date">
                     <span className="nhsuk-u-font-weight-bold">
                         {resultsStrings.TestResultCard.tested}
                     </span>
@@ -50,8 +50,8 @@ const TestResult = ({ value }) => {
     )
 }
 
-TestResult.propTypes = {
+TestResultCard.propTypes = {
     value: PropTypes.object.isRequired
 }
 
-export default TestResult
+export default TestResultCard

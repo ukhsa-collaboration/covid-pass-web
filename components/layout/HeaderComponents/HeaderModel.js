@@ -13,7 +13,7 @@ const HeaderModel = ({ handleMenuClick, isMenuActive }) => {
     headerStrings.setLanguage(getLanguage(user))
 
     useEffect(() => {
-        var element = document.getElementById('custom-header-model')
+        const element = document.getElementById('custom-header-model')
         element.addEventListener('keydown', tabKeyPress)
 
         return () => element.removeEventListener('keydown', tabKeyPress)
@@ -21,14 +21,14 @@ const HeaderModel = ({ handleMenuClick, isMenuActive }) => {
 
     // https://hidde.blog/using-javascript-to-trap-focus-in-an-element/
     const tabKeyPress = (e) => {
-        var element = document.getElementById('custom-header-model')
-        var focusableEls = element.querySelectorAll(
+        const element = document.getElementById('custom-header-model')
+        const focusableEls = element.querySelectorAll(
             'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])'
         )
-        var firstFocusableEl = focusableEls[0]
-        var lastFocusableEl = focusableEls[focusableEls.length - 1]
-        var KEYCODE_TAB = 9
-        var isTabPressed = e.key === 'Tab' || e.keyCode === KEYCODE_TAB
+        const firstFocusableEl = focusableEls[0]
+        const lastFocusableEl = focusableEls[focusableEls.length - 1]
+        const KEYCODE_TAB = 9
+        const isTabPressed = e.key === 'Tab' || e.keyCode === KEYCODE_TAB
 
         if (!isTabPressed) {
             return

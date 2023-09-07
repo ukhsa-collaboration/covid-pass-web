@@ -9,6 +9,8 @@ import { INDEX_PAGE, SESSION_ENDED } from 'constants/routes'
 const useEndUserSession = () => {
     const router = useRouter()
     const dispatch = useDispatch()
+
+    // eslint-disable-next-line no-unused-vars
     const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
 
     const routeThenEndSession = (pageRoute = INDEX_PAGE) => {

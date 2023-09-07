@@ -12,11 +12,11 @@ import TimeoutAlert from 'components/Alerts/TimeoutAlert'
 import { getUserToken } from 'helpers/cookieHelper'
 import { timeoutAlertStrings } from 'localization/translations'
 import useIsLetterServiceUrlQuery from 'hooks/useIsLetterServiceUrlQuery'
-import { addInternalRouteWithExternalResourceLetter } from 'helpers/index'
+import { addInternalRouteWithExternalResourceLetter, getInternalHref } from 'helpers/index'
 
 const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const isLetterService = useIsLetterServiceUrlQuery()
 
@@ -38,7 +38,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
             <h1 className="nhsuk-heading-xl">{helpPrivacyNoticeChildFriendly.title}</h1>
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard1.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard1.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Smiling children holding up vaccination cards"
                 />
@@ -54,7 +56,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
 
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard2.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard2.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Boy wearing mask receiving a vaccine"
                 />
@@ -70,7 +74,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
 
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard3.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard3.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Two adults and two children in summer clothing with suitcases"
                 />
@@ -85,7 +91,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
             </div>
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard4.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard4.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Modern, multistory office building"
                 />
@@ -100,7 +108,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
             </div>
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard5.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard5.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Profile cards with pictures of faces"
                 />
@@ -117,7 +127,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
             </div>
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard6.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard6.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Computer screen with a chain and padlock around it"
                 />
@@ -134,7 +146,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
 
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard7.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard7.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Calendar with one day highlighted"
                 />
@@ -150,7 +164,9 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
 
             <div className="nhsuk-card">
                 <img
-                    src="/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard8.jpg"
+                    src={getInternalHref(
+                        '/PrivacyNoticeChildFriendly/PrivacyNoticeChildFriendlyCard8.jpg'
+                    )}
                     className="nhsuk-card__img"
                     alt="Smiling boy with raised hand, holding a large question mark"
                 />
@@ -201,9 +217,10 @@ const PrivacyNoticeChildFriendly = ({ showBackButton = true }) => {
                     {helpPrivacyNoticeChildFriendly.inset.text9}
                     <a
                         className="nhsuk-link nhsuk-link--no-visited-state-link"
+                        data-testid="privacy-notice-child-friendly-5-11-privacy-notice-link"
+                        id="privacy-notice-child-friendly-5-11-privacy-notice-link"
                         onClick={(e) => onClickPrivacyNoticeChild5To11(e)}
-                        href={HELP_PRIVACY_NOTICE_5_to_11}
-                        id="privacy-notice-child-friendly-5-11-privacy-notice-link">
+                        href={getInternalHref(HELP_PRIVACY_NOTICE_5_to_11)}>
                         {helpPrivacyNoticeChildFriendly.inset.link2.text}
                     </a>
                 </p>

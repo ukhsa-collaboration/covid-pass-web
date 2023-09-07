@@ -4,8 +4,12 @@ import PdfCertificateGeneration from 'components/Certificate/GenerationCards/Pdf
 import ShareByEmailGeneration from 'components/Certificate/GenerationCards/ShareByEmailGeneration'
 import { domesticPageStrings } from 'localization/translations'
 import ViewRecordsButton from 'components/buttons/ViewRecordsButton'
-import { getName, getDateFormattedDOB, getLanguage } from 'helpers/userHelper'
-import { getIdentityProofingLevel } from 'helpers/userHelper'
+import {
+    getName,
+    getDateFormattedDOB,
+    getLanguage,
+    getIdentityProofingLevel
+} from 'helpers/userHelper'
 import { trackEvent } from 'helpers/appInsights'
 import DomesticValidStatusTypeCalculation from 'components/Status/domesticComponents/domesticValid/domesticValidComponents/DomesticValidStatusTypeCalculation'
 import { getPdfDownloadToggleDomestic } from 'helpers/index'

@@ -14,11 +14,11 @@ import { useSelector } from 'react-redux'
 import Head from 'next/head'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 import useIsLetterServiceUrlQuery from 'hooks/useIsLetterServiceUrlQuery'
-import { addInternalRouteWithExternalResourceLetter } from 'helpers/index'
+import { addInternalRouteWithExternalResourceLetter, getInternalHref } from 'helpers/index'
 
 const PrivacyNoticeFiveToEleven = ({ showBackButton = true }) => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const isLetterService = useIsLetterServiceUrlQuery()
 
@@ -52,10 +52,11 @@ const PrivacyNoticeFiveToEleven = ({ showBackButton = true }) => {
             <p className="nhsuk-body">
                 <a
                     className="nhsuk-link nhsuk-link--no-visited-state-link"
+                    data-testid="privacy-notice-5-11-privacy-notice-child-friendly-link"
+                    id="privacy-notice-5-11-privacy-notice-child-friendly-link"
                     onClick={(e) => onClickPrivacyNoticeChildFriendly(e)}
-                    target="_blank"
-                    href={HELP_PRIVACY_NOTICE_CHILD_FRIENDLY}
-                    id="privacy-notice-5-11-privacy-notice-child-friendly-link">
+                    href={getInternalHref(HELP_PRIVACY_NOTICE_CHILD_FRIENDLY)}
+                    target="_blank">
                     {helpPrivacyNoticeFiveToEleven.linkToChildFriendly.text}
                 </a>
             </p>
@@ -350,8 +351,9 @@ const PrivacyNoticeFiveToEleven = ({ showBackButton = true }) => {
                 <a
                     onClick={(e) => onClickPrivacyNotice(e)}
                     target="_blank"
-                    href={HELP_PRIVACY_NOTICE}
+                    href={getInternalHref(HELP_PRIVACY_NOTICE)}
                     id="privacy-notice-5-11-normal-privacy-notice-link"
+                    data-testid="privacy-notice-5-11-normal-privacy-notice-link"
                     className="nhsuk-link nhsuk-link--no-visited-state-link">
                     {helpPrivacyNoticeFiveToEleven.importantContactDetails.textGroup4.link1.text}
                 </a>

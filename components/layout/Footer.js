@@ -12,6 +12,7 @@ import { RELEASE_VERSION } from 'constants/index'
 import { trackEvent } from 'helpers/appInsights'
 import { footerStrings } from 'localization/translations'
 import { getLanguage } from 'helpers/userHelper'
+import { getInternalHref } from 'helpers/index'
 import { useSelector } from 'react-redux'
 import useIsLetterServiceUrlQuery from 'hooks/useIsLetterServiceUrlQuery'
 
@@ -66,7 +67,8 @@ const Footer = () => {
                                 <a
                                     onClick={(e) => onClickAccessibilityStatement(e)}
                                     className="nhsuk-footer__list-item-link"
-                                    href={HELP_ACCESSIBILITY}
+                                    data-testid="footer_accessibility-statement-link"
+                                    href={getInternalHref(HELP_ACCESSIBILITY)}
                                     title={footerStrings.accessibilityLinkTitle}>
                                     {footerStrings.accessibilityLinkText}
                                 </a>
@@ -75,7 +77,8 @@ const Footer = () => {
                                 <a
                                     onClick={(e) => onCookiePolicy(e)}
                                     className="nhsuk-footer__list-item-link"
-                                    href={HELP_COOKIE_POLICY}
+                                    data-testid="footer_cookie-policy-link"
+                                    href={getInternalHref(HELP_COOKIE_POLICY)}
                                     title={footerStrings.cookieLinkTitle}>
                                     {footerStrings.cookieLinkText}
                                 </a>
@@ -84,7 +87,8 @@ const Footer = () => {
                                 <a
                                     onClick={(e) => onClickPrivacyNotice5To11(e)}
                                     className="nhsuk-footer__list-item-link"
-                                    href={HELP_PRIVACY_NOTICE_5_to_11}
+                                    data-testid="footer_privacy-notice-5-to-11-link"
+                                    href={getInternalHref(HELP_PRIVACY_NOTICE_5_to_11)}
                                     title={footerStrings.age5To11PrivacyLinkTextTitle}>
                                     {footerStrings.age5To11PrivacyLinkText}
                                 </a>
@@ -93,7 +97,8 @@ const Footer = () => {
                                 <a
                                     onClick={(e) => onClickU16PrivacyNotice(e)}
                                     className="nhsuk-footer__list-item-link"
-                                    href={HELP_PRIVACY_NOTICE_UNDER_SIXTEEN}
+                                    data-testid="footer_privacy-notice-under-16-link"
+                                    href={getInternalHref(HELP_PRIVACY_NOTICE_UNDER_SIXTEEN)}
                                     title={footerStrings.u16PrivacyLinkTitle}>
                                     {footerStrings.u16PrivacyLinkText}
                                 </a>
@@ -102,7 +107,8 @@ const Footer = () => {
                                 <a
                                     onClick={(e) => onClickPrivacyNotice(e)}
                                     className="nhsuk-footer__list-item-link"
-                                    href={HELP_PRIVACY_NOTICE}
+                                    data-testid="footer_privacy-notice-link"
+                                    href={getInternalHref(HELP_PRIVACY_NOTICE)}
                                     title={footerStrings.privacyLinkTitle}>
                                     {footerStrings.privacyLinkText}
                                 </a>
@@ -111,7 +117,8 @@ const Footer = () => {
                                 <a
                                     onClick={(e) => onClickTermsAndConditions(e)}
                                     className="nhsuk-footer__list-item-link"
-                                    href={HELP_TERMS_AND_CONDITIONS}
+                                    data-testid="footer_terms-conditions-link"
+                                    href={getInternalHref(HELP_TERMS_AND_CONDITIONS)}
                                     title={footerStrings.tncLinkTitle}>
                                     {footerStrings.tncLinkText}
                                 </a>
@@ -122,7 +129,10 @@ const Footer = () => {
                         &copy;&nbsp;{footerStrings.crownCopyright}
                     </p>
                     {!isLetterService && (
-                        <p className="nhsuk-footer__copyright" id="footer-version-number">
+                        <p
+                            className="nhsuk-footer__copyright"
+                            id="footer-version-number"
+                            data-testid="footer-version-number">
                             <span className="nhsuk-u-visually-hidden">
                                 {footerStrings.release}&nbsp;
                             </span>

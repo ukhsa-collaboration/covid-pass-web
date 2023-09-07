@@ -9,7 +9,7 @@ const DomesticExpiredDefault = () => {
     domesticPageStrings.setLanguage(getLanguage(user))
 
     return (
-        <div>
+        <div data-testid="domestic-expired-default">
             <div>
                 <h1 className="nhsuk-heading-xl">
                     {domesticPageStrings.noCertificateAndExpired.headingExpired}

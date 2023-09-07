@@ -5,14 +5,13 @@ import { useRouter } from 'next/router'
 import { trackEvent } from 'helpers/appInsights'
 import nhsStatusCodes from 'api/nhsStatusCodes'
 import { isNhsAppNative } from 'helpers/isNhsApp'
-import { checkCacheUnixTime } from 'helpers/auth'
+import { checkCacheUnixTime, uuidCookieReduxNotMatching } from 'helpers/auth'
 import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { FetchAssertedLoginIdentity } from 'actions/userActions'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
 import { isIOS } from 'react-device-detect'
-import { uuidCookieReduxNotMatching } from 'helpers/auth'
 import useEndUserSession from 'hooks/useEndUserSession'
 
 const ManageNHSLogin = ({ elements, page, ariaLabel }) => {
@@ -21,7 +20,7 @@ const ManageNHSLogin = ({ elements, page, ariaLabel }) => {
     const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
 
     const user = useSelector((state) => state.userReducer.user)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
 
     const handleManageNHSLogin = (event) => {
         event.preventDefault()
@@ -87,8 +86,9 @@ const ManageNHSLogin = ({ elements, page, ariaLabel }) => {
     return (
         <span
             className="manage-nhs-login-click-container"
+            data-testid="manage-nhs-login-click-container"
             onClick={(e) => handleManageNHSLogin(e)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
                 e.key === 'Enter' && handleManageNHSLogin(e)
             }}
             role="button"

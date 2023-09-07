@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const CheckCircle = ({ className }) => {
+const NegativeCovidIcon = ({ className }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -15,8 +15,8 @@ const CheckCircle = ({ className }) => {
     )
 }
 
-CheckCircle.propTypes = {
+NegativeCovidIcon.propTypes = {
     className: PropTypes.string
 }
 
-export default CheckCircle
+export default NegativeCovidIcon

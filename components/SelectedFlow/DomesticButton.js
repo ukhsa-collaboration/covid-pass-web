@@ -1,8 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { hasDomesticAccess } from 'helpers/userHelper'
+import { hasDomesticAccess, getLanguage } from 'helpers/userHelper'
 import { getDomesticFeatureToggle } from 'helpers/featureToggleHelper'
-import { getLanguage } from 'helpers/userHelper'
 import { selectedFlowStrings } from 'localization/translations'
 import PropTypes from 'prop-types'
 import UnderageDomesticCard from 'components/SelectedFlow/UnderageDomesticCard'
@@ -19,12 +18,13 @@ const DomesticButton = ({ onClick }) => {
             <div
                 role="link"
                 className="selected-flow-option"
+                data-testid="selectedFlow-option-domestic"
                 id="selectedFlow-option-domestic"
-                onKeyPress={(e) => {
-                    e.code === 'Enter' && onClick(e, 'domestic')
-                }}
                 tabIndex={0}
-                onClick={(e) => onClick(e, 'domestic')}>
+                onClick={(e) => onClick(e, 'domestic')}
+                onKeyDown={(e) => {
+                    e.key === 'Enter' && onClick(e, 'domestic')
+                }}>
                 <h2 className="nhsuk-heading-m">{selectedFlowStrings.domestic.cardTitle}</h2>
 
                 <p className="nhsuk-body">{selectedFlowStrings.domestic.cardText}</p>

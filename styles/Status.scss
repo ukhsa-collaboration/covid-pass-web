@@ -34,16 +34,17 @@
 }
 
 .qr-code-container {
-  margin-bottom: 32px;
   max-width: 375px;
   margin: 0 auto 32px auto;
 
   .status-verified-mandatory, .status-verified-default {
     background-color: #007f3b;
     color: #fff;
+    svg {
+        fill:#fff;
+        margin-right: 8px;
+      }
   }
-
-  
 
   .status-verified-mandatory, .status-verified-voluntary {
     &__text-container {
@@ -56,13 +57,6 @@
             padding-bottom: 0;
         }
     }
-  }
-
-  .status-verified-default, .status-verified-mandatory {
-    svg {
-        fill:#fff;
-        margin-right: 8px;
-      }
   }
 
   .status-verified-voluntary {
@@ -98,7 +92,7 @@
         height: 100%;
         width: 120px;
 
-        background: -webkit-linear-gradient(to left, rgba(white, 0.085) 0%, rgba(white, 0.001) 100%);
+        background: -webkit-linear-gradient(left, rgba(white, 0.085) 0%, rgba(white, 0.001) 100%);
         background: linear-gradient(to left, rgba(white, 0.085) 0%, rgba(white, 0.001) 100%); /* Old browsers */
         background-repeat: no-repeat;
 

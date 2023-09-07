@@ -16,7 +16,7 @@ import { getDomesticFeatureToggle } from 'helpers/featureToggleHelper'
 
 const Unverified = () => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const featureToggle = useSelector((state) => state.featureToggleReducer.featureToggle)
 

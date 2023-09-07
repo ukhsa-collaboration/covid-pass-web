@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 
 const NoRecords = () => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
 
     noRecordsPageStrings.setLanguage(getLanguage(user))

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { LANGUAGE_TOGGLE } from 'actions/types'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { getLanguage } from 'helpers/userHelper'
@@ -19,7 +18,7 @@ const LanguageSelection = ({ isMenuActive }) => {
     const { routeThenEndSession } = useEndUserSession()
 
     const user = useSelector((state) => state.userReducer.user)
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
 
     headerStrings.setLanguage(getLanguage(user))
 
@@ -59,6 +58,7 @@ const LanguageSelection = ({ isMenuActive }) => {
             onClick={handleLanguageClick}
             className="nhsuk-header__menu-toggle"
             id="toggle-language"
+            data-testid="toggle-language-btn"
             aria-controls={headerStrings.translate.ariaControls}
             aria-label={headerStrings.translate.ariaLabel}
             tabIndex={isMenuActive ? '-1' : null}>

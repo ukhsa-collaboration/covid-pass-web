@@ -33,8 +33,8 @@ export const getErrorCode = (userApiCache) => {
 }
 
 export const getDateUntil = (userApiCache, lang) => {
-    var options = { month: 'long', day: 'numeric' }
-    var date = new Date(Date.parse(userApiCache.certificate.domestic.waitPeriod))
+    const options = { month: 'long', day: 'numeric' }
+    const date = new Date(Date.parse(userApiCache.certificate.domestic.waitPeriod))
     return lang === LANGUAGE_CODES.cy
         ? welshConvertDate(date.toLocaleDateString('en-us', options))
         : date.toLocaleDateString('en-us', options)

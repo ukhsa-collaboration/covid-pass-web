@@ -14,11 +14,11 @@ import { useSelector } from 'react-redux'
 import Head from 'next/head'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 import useIsLetterServiceUrlQuery from 'hooks/useIsLetterServiceUrlQuery'
-import { addInternalRouteWithExternalResourceLetter } from 'helpers/index'
+import { addInternalRouteWithExternalResourceLetter, getInternalHref } from 'helpers/index'
 
 const PrivacyNoticeUnderSixteen = ({ showBackButton = true }) => {
     const router = useRouter()
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const isLetterService = useIsLetterServiceUrlQuery()
 
@@ -54,8 +54,9 @@ const PrivacyNoticeUnderSixteen = ({ showBackButton = true }) => {
                 <a
                     onClick={(e) => onClickPrivacyNotice5To11(e)}
                     target="_blank"
-                    href={HELP_PRIVACY_NOTICE_5_to_11}
+                    href={getInternalHref(HELP_PRIVACY_NOTICE_5_to_11)}
                     id="privacy-notice-under-16-normal-privacy-notice-5-11-link"
+                    data-testid="privacy-notice-under-16-normal-privacy-notice-5-11-link"
                     className="nhsuk-link nhsuk-link--no-visited-state-link">
                     {helpPrivacyNoticeUnderSixteen.age5To11Pn.text}
                 </a>
@@ -281,7 +282,7 @@ const PrivacyNoticeUnderSixteen = ({ showBackButton = true }) => {
                 {helpPrivacyNoticeUnderSixteen.howCanIGetTheTravelLetter.textGroup5.text1}
             </p>
             <img
-                src="/NHS_icon.png"
+                src={getInternalHref('/NHS_icon.png')}
                 className="app_icon"
                 alt={helpPrivacyNoticeUnderSixteen.howCanIGetTheTravelLetter.textGroup5.imgAltText}
             />
@@ -457,8 +458,9 @@ const PrivacyNoticeUnderSixteen = ({ showBackButton = true }) => {
                 <a
                     onClick={(e) => onClickPrivacyNotice(e)}
                     target="_blank"
-                    href={HELP_PRIVACY_NOTICE}
+                    href={getInternalHref(HELP_PRIVACY_NOTICE)}
                     id="privacy-notice-under-sixteen-normal-privacy-notice-link"
+                    data-testid="privacy-notice-under-sixteen-normal-privacy-notice-link"
                     className="nhsuk-link nhsuk-link--no-visited-state-link">
                     {helpPrivacyNoticeUnderSixteen.whatDoWeDoWithYourInfo.textGroup2.link1.text}
                 </a>

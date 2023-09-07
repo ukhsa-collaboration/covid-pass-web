@@ -16,10 +16,11 @@ const SeeMoreButton = ({ onClickFunction }) => {
         <div className="see-more-link-container">
             <a
                 className="nhsuk-link nhsuk-link--no-visited-state see-more-link-button"
+                data-testid="see-more-link-button"
                 role="button"
                 tabIndex={0}
                 onClick={(e) => onClick(e)}
-                onKeyPress={(e) => e.key === 'Enter' && onClick(e)}>
+                onKeyDown={(e) => e.key === 'Enter' && onClick(e)}>
                 {resultsStrings.seeMore}
             </a>
         </div>

@@ -6,6 +6,7 @@ import InternationalStatusCard from 'components/Status/internationalComponents/I
 import { internationalPageStrings } from 'localization/translations'
 import { trackEvent } from 'helpers/appInsights'
 import { getIdentityProofingLevel, getLanguage } from 'helpers/userHelper'
+import { getInternalHref } from 'helpers/index'
 import ViewRecordsButton from 'components/buttons/ViewRecordsButton'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 import SurveyBanner from 'components/Status/SurveyBanner'
@@ -14,9 +15,7 @@ const InternationalNoCertificate = () => {
     const router = useRouter()
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const user = useSelector((state) => state.userReducer.user)
-    const [certificateStatus, setCertificateStatus] = React.useState(
-        userApiCache.certificate.international.status
-    )
+    const certificateStatus = userApiCache.certificate.international.status
     internationalPageStrings.setLanguage(getLanguage(user))
 
     useEffect(() => {
@@ -26,12 +25,6 @@ const InternationalNoCertificate = () => {
     const noRecordsFound = (event) => {
         event.preventDefault()
         router.push(NO_RECORDS)
-    }
-
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            noRecordsFound()
-        }
     }
 
     return (
@@ -55,12 +48,15 @@ const InternationalNoCertificate = () => {
             <p className="nhsuk-body">
                 <a
                     id="status-button-records"
+                    data-testid="status-button-records"
                     className="nhsuk-link nhsuk-link--no-visited-state"
-                    href={NO_RECORDS}
+                    href={getInternalHref(NO_RECORDS)}
                     role="button"
                     tabIndex={0}
-                    onKeyPress={(e) => handleKeyPress(e)}
-                    onClick={(e) => noRecordsFound(e)}>
+                    onClick={(e) => noRecordsFound(e)}
+                    onKeyDown={(e) => {
+                        e.key === 'Enter' && noRecordsFound()
+                    }}>
                     {internationalPageStrings.linkText1}
                 </a>
             </p>

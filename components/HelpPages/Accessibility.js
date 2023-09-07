@@ -13,7 +13,7 @@ import Head from 'next/head'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 
 const Accessibility = ({ showBackButton = true }) => {
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
 
     timeoutAlertStrings.setLanguage(getLanguage(user))

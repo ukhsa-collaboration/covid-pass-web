@@ -14,17 +14,23 @@ const AntibodyResultCard = ({ value }) => {
     switch (value['testResult'].toLowerCase()) {
         case 'negative':
             resultsDesc = (
-                <p className="record-card__description">{antibodyResultCardPageStrings.body1}</p>
+                <p className="record-card__description" data-testid="antibody-card-description">
+                    {antibodyResultCardPageStrings.body1}
+                </p>
             )
             break
         case 'positive':
             resultsDesc = (
-                <p className="record-card__description">{antibodyResultCardPageStrings.body2}</p>
+                <p className="record-card__description" data-testid="antibody-card-description">
+                    {antibodyResultCardPageStrings.body2}
+                </p>
             )
             break
         case 'void':
             resultsDesc = (
-                <p className="record-card__description">{antibodyResultCardPageStrings.body3}</p>
+                <p className="record-card__description" data-testid="antibody-card-description">
+                    {antibodyResultCardPageStrings.body3}
+                </p>
             )
             break
     }
@@ -32,12 +38,14 @@ const AntibodyResultCard = ({ value }) => {
     return (
         <div className="record-card">
             <div className="record-card__content">
-                <h3 className="record-card__heading">
+                <h3 className="record-card__heading" data-testid="antibody-card-heading-date">
                     {getFormattedDateTime(value['dateTimeOfTest'], getLanguage(user))}
                 </h3>
                 {resultsDesc}
                 <hr className="record-card__breaker"></hr>
-                <p className="record-card__type">{value['testType']}</p>
+                <p className="record-card__type" data-testid="antibody-card-type">
+                    {value['testType']}
+                </p>
             </div>
         </div>
     )

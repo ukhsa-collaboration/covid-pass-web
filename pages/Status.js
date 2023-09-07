@@ -10,12 +10,10 @@ import {
     ERROR_500,
     SELECTED_FLOW,
     SESSION_EXPIRED,
-    SESSION_ENDED,
     TIMEOUT_ERROR
 } from 'constants/routes'
 import LoadingPage from 'components/LoadingSpinner/LoadingPage'
 import {
-    REMOVE_ALL_REDUX,
     CACHE_DOMESTIC_CERTIFICATE_VALUES,
     CACHE_INTERNATIONAL_RECOVERY_VALUES,
     CACHE_INTERNATIONAL_CERTIFICATE_VALUES,
@@ -56,19 +54,27 @@ const Status = () => {
     const featureToggle = useSelector((state) => state.featureToggleReducer.featureToggle)
     const [loading, setLoading] = React.useState(true)
     const [internationalQrApiLoading, setInternationalQrApiLoading] = React.useState(false)
+    const language = getLanguage(user)
 
-    const pageHeadTitle =
-        getUserPreferenceSelectedFlow(cookies) === 'international'
+    const buildPageTitle = () => {
+        return getUserPreferenceSelectedFlow(cookies) === 'international'
             ? statusStrings.internationalStatusHead
             : statusStrings.domesticStatusHead
+    }
 
-    statusStrings.setLanguage(getLanguage(user))
-    carouselStrings.setLanguage(getLanguage(user))
-    timeoutAlertStrings.setLanguage(getLanguage(user))
+    const pageHeadTitle = buildPageTitle()
+
+    statusStrings.setLanguage(language)
+    carouselStrings.setLanguage(language)
+    timeoutAlertStrings.setLanguage(language)
 
     useEffect(() => {
         trackPageView('Status', COVID_STATUS)
     }, [])
+
+    useEffect(() => {
+        document.title = buildPageTitle()
+    }, [language])
 
     useEffect(() => {
         if (!getUserToken(cookies)) {
@@ -152,7 +158,7 @@ const Status = () => {
     }
 
     const fetchDomesticStatus = async () => {
-        var error = false
+        let error = false
         fetchDomesticStatusBreak: try {
             const res = await dispatch(
                 getCertificate(getUserToken(cookies), getUserTokenId(cookies))
@@ -249,7 +255,7 @@ const Status = () => {
                 getInternationalQR(getUserToken(cookies), getUserTokenId(cookies))
             )
             if (res.status === nhsStatusCodes.Success) {
-                var vaccinationResData = res.data?.vaccinationQrResponse
+                const vaccinationResData = res.data?.vaccinationQrResponse
                 if (vaccinationResData) {
                     const dispatchData = {
                         status: true,

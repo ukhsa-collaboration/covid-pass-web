@@ -17,11 +17,9 @@ const InternationalCertificate = () => {
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const user = useSelector((state) => state.userReducer.user)
     const featureToggle = useSelector((state) => state.featureToggleReducer.featureToggle)
-    const [certificateStatus, setCertificateStatus] = React.useState(
-        userApiCache.certificate.international.status
-            ? userApiCache.certificate.international.status
-            : userApiCache.certificate.recovery.status
-    )
+    const certificateStatus = userApiCache.certificate.international.status
+        ? userApiCache.certificate.international.status
+        : userApiCache.certificate.recovery.status
     internationalPageStrings.setLanguage(getLanguage(user))
 
     useEffect(() => {

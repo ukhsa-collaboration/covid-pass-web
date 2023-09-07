@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { INDEX_PAGE } from 'constants/routes'
+import { INDEX_PAGE, CONSENT_NOT_GIVEN } from 'constants/routes'
 import { noConsentStrings } from 'localization/translations'
 import { isNhsAppNative } from 'helpers/isNhsApp'
+import { getInternalHref } from 'helpers/index'
 import NHSBackButton from 'components/buttons/nhsBackButton'
 import BackButton from 'components/buttons/BackButton'
 import { trackPageView, trackEvent } from 'helpers/appInsights'
-import { CONSENT_NOT_GIVEN } from 'constants/routes'
 import Head from 'next/head'
 import { getLanguage } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
@@ -36,11 +36,12 @@ const ConsentNotGiven = () => {
             <p className="nhsuk-body">{noConsentStrings.body1}</p>
             {isNhsAppNative() ? null : (
                 <a
-                    id="consent-not-given-home-href"
                     className="nhsuk-link nhsuk-link--no-visited-state"
-                    href={INDEX_PAGE}
-                    onKeyPress={(e) => e.key === 'Enter' && handleClick(e)}
-                    onClick={handleClick}>
+                    data-testid="consent-not-given-home-href"
+                    id="consent-not-given-home-href"
+                    onClick={handleClick}
+                    onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
+                    href={getInternalHref(INDEX_PAGE)}>
                     {noConsentStrings.linkText1}
                 </a>
             )}

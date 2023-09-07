@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 import { domesticPageStrings } from 'localization/translations'
 import { trackEvent } from 'helpers/appInsights'
-import { getLanguage } from 'helpers/userHelper'
+import { getLanguage, getIdentityProofingLevel } from 'helpers/userHelper'
 import { useSelector } from 'react-redux'
 import { getDateUntil, getErrorCode } from 'helpers/certificateHelper'
 import ViewRecordsButton from 'components/buttons/ViewRecordsButton'
-import { getIdentityProofingLevel } from 'helpers/userHelper'
 import ExternalLink from 'components/contentPresentation/ExternalLink'
 
 const PositiveLFTError = () => {
@@ -20,7 +19,7 @@ const PositiveLFTError = () => {
     }, [])
 
     return (
-        <div>
+        <div data-testid="positive-lft-error">
             <div>
                 <h1 className="nhsuk-heading-xl">
                     {domesticPageStrings.errorMessages.lft.heading}

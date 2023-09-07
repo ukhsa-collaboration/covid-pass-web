@@ -16,14 +16,14 @@ export const getFormattedDateTime = (dateTime, textLang = LANGUAGE_CODES.en) => 
 }
 
 export const getFormattedDateTimeEuropeLondon = (dateTime, textLang = LANGUAGE_CODES.en) => {
-    var momentTz = require('moment-timezone')
-    var format = 'YYYY/MM/DD HH:mm:ss'
+    const momentTz = require('moment-timezone')
+    const format = 'YYYY/MM/DD HH:mm:ss'
 
     return getFormattedDateTime(momentTz.utc(dateTime).tz('Europe/London').format(format), textLang)
 }
 
 export const getFormattedDateTimeEuropeLondonNoHours = (dateTime, textLang = LANGUAGE_CODES.en) => {
-    var momentTz = require('moment-timezone')
+    const momentTz = require('moment-timezone')
     const formatted = momentTz.tz(dateTime, 'Europe/London').format(DATE_TIME_FORMATS.longDate)
 
     return textLang === LANGUAGE_CODES.cy ? welshConvertDate(formatted) : formatted
@@ -55,9 +55,9 @@ export const checkDatesForMiddayAndMidnight = (date, textLang = LANGUAGE_CODES.e
 }
 
 export const welshConvertDate = (date) => {
-    var cyDate
+    let welshDate
 
-    var enArr = new Array(
+    const englishMonths = new Array(
         'January',
         'February',
         'March',
@@ -72,7 +72,7 @@ export const welshConvertDate = (date) => {
         'December'
     )
 
-    var cyArr = new Array(
+    const welshMonths = new Array(
         'Ionawr',
         'Chwefror',
         'Mawrth',
@@ -87,11 +87,11 @@ export const welshConvertDate = (date) => {
         'Rhagfyr'
     )
 
-    for (var i = 0; i < enArr.length; i++) {
-        if (date.includes(enArr[i])) {
-            cyDate = date.replace(enArr[i], cyArr[i])
+    for (let i = 0; i < englishMonths.length; i++) {
+        if (date.includes(englishMonths[i])) {
+            welshDate = date.replace(englishMonths[i], welshMonths[i])
         }
     }
 
-    return cyDate
+    return welshDate
 }

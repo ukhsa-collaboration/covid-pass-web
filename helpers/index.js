@@ -15,3 +15,11 @@ export const getPdfDownloadToggleDomestic = (featureToggle) => {
 export const getPdfDownloadToggleInternational = (featureToggle) => {
     return featureToggle ? featureToggle.showPdfDownloadInternational : null
 }
+
+export const getNhsLoginRedirectUri = (pathEdit = process.env.NEXT_PUBLIC_BASE_PATH_EDIT) => {
+    return `${window.location.origin}/${pathEdit === 'true' ? 'staticsite/' : ''}`
+}
+
+export const getInternalHref = (path, pathEdit = process.env.NEXT_PUBLIC_BASE_PATH_EDIT) => {
+    return `${pathEdit === 'true' ? '/staticsite' : ''}${path}`
+}

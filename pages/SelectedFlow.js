@@ -47,7 +47,7 @@ const SelectedFlow = () => {
         }
     }, [cookies, router])
 
-    const onClick = async (event, SelectedFlow) => {
+    const onClick = async (event, flow) => {
         if (uuidCookieReduxNotMatching(cookies, user)) {
             mismatchedUuidEndSession()
             return
@@ -55,10 +55,10 @@ const SelectedFlow = () => {
 
         await dispatch({
             type: UPDATE_SELECTED_FLOW,
-            payload: SelectedFlow
+            payload: flow
         })
         const data = {
-            SelectedFlow: SelectedFlow
+            SelectedFlow: flow
         }
         setCookie(COOKIE_USER_PREFERENCE_KEY, JSON.stringify(data), {
             path: '/',
@@ -66,7 +66,7 @@ const SelectedFlow = () => {
             secure: true
         })
         router.push(COVID_STATUS)
-        trackEvent('Selected Flow - ' + SelectedFlow + 'Button Click')
+        trackEvent('Selected Flow - ' + flow + 'Button Click')
     }
     return (
         <div>

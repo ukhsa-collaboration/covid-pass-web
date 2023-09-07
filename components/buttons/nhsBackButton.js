@@ -11,21 +11,18 @@ const NHSBackButton = () => {
         gotoHomepage()
     }
 
-    const handleKeyPress = (event) => {
-        if (event.key == 'Enter') {
-            handleClick()
-        }
-    }
-
     return (
         <div className="nhsuk-back-link">
             <a
                 label="Go back"
                 className="nhsuk-back-link__link"
+                data-testid="nhsapp-back-link"
                 role="link"
                 tabIndex={0}
                 onClick={handleClick}
-                onKeyPress={(e) => handleKeyPress(e)}>
+                onKeyDown={(e) => {
+                    e.key === 'Enter' && handleClick()
+                }}>
                 <svg
                     className="nhsuk-icon nhsuk-icon__chevron-left"
                     xmlns="http://www.w3.org/2000/svg"

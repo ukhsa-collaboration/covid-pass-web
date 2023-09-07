@@ -10,11 +10,9 @@ const InternationalPage = () => {
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const user = useSelector((state) => state.userReducer.user)
     const router = useRouter()
-    const [certificateStatus, setCertificateStatus] = React.useState(
-        userApiCache.certificate.international.status
-            ? userApiCache.certificate.international.status
-            : userApiCache.certificate.recovery.status
-    )
+    const certificateStatus = userApiCache.certificate.international.status
+        ? userApiCache.certificate.international.status
+        : userApiCache.certificate.recovery.status
 
     useEffect(() => {
         if (['P5', 'P5Plus'].includes(getIdentityProofingLevel(user))) {

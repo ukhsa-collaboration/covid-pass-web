@@ -17,7 +17,7 @@ import {
 import { ERROR_500, SESSION_EXPIRED, TIMEOUT_ERROR } from 'constants/routes'
 import { isNhsAppNative, nhsAppDownloadFromBytes } from 'helpers/isNhsApp'
 import DownloadIcon from 'components/icons/DownloadIcon'
-import { checkCacheUnixTime } from 'helpers/auth'
+import { checkCacheUnixTime, uuidCookieReduxNotMatching } from 'helpers/auth'
 import {
     getUserToken,
     getUserTokenId,
@@ -29,7 +29,6 @@ import { COOKIE_USER_TOKEN_KEY, LANGUAGE_CODES } from 'constants/index'
 import { pdfCertificateGenerationPageStrings } from 'localization/translations'
 import { getLanguage } from 'helpers/userHelper'
 import { certificateTypeToText } from 'helpers/certificateHelper'
-import { uuidCookieReduxNotMatching } from 'helpers/auth'
 import useEndUserSession from 'hooks/useEndUserSession'
 
 const PdfCertificateGeneration = () => {
@@ -37,7 +36,7 @@ const PdfCertificateGeneration = () => {
     const dispatch = useDispatch()
     const { routeThenEndSession, mismatchedUuidEndSession } = useEndUserSession()
 
-    const [cookies, setCookie] = useCookies([COOKIE_USER_TOKEN_KEY])
+    const [cookies] = useCookies([COOKIE_USER_TOKEN_KEY])
     const user = useSelector((state) => state.userReducer.user)
     const userApiCache = useSelector((state) => state.userApiCacheReducer.userApiCache)
     const [loading, setLoading] = React.useState(false)
@@ -257,9 +256,9 @@ const PdfCertificateGeneration = () => {
                 : userApiCache.pdfDownloadLimitExpiry.domestic
         const secondsUntilNextDownload =
             pdfDownloadLimitExpiry - Math.round(new Date().getTime() / 1000)
-        var hours = Math.floor(secondsUntilNextDownload / 3600)
-        var minutes = Math.floor((secondsUntilNextDownload % 3600) / 60)
-        var seconds = Math.floor((secondsUntilNextDownload % 3600) % 60)
+        const hours = Math.floor(secondsUntilNextDownload / 3600)
+        const minutes = Math.floor((secondsUntilNextDownload % 3600) / 60)
+        const seconds = Math.floor((secondsUntilNextDownload % 3600) % 60)
 
         return {
             hours: parseInt(hours),
@@ -270,7 +269,7 @@ const PdfCertificateGeneration = () => {
 
     const constructPdfLimiterErrorMessage = () => {
         const timeLeft = getTimeLeft()
-        var hours, minutes
+        let hours, minutes
 
         if (timeLeft.minutes === 59) {
             //When there is e.g. 59m & 26s left we'd like to show 1hr rather than 60min
@@ -366,31 +365,27 @@ const PdfCertificateGeneration = () => {
     }
 
     const downloadNhsPdf = async (blob, fileName) => {
-        var reader = new FileReader()
+        const reader = new FileReader()
         reader.readAsDataURL(blob)
         reader.onloadend = function () {
-            var base64data = reader.result
+            const base64data = reader.result
             nhsAppDownloadFromBytes(base64data, fileName, 'application/pdf')
         }
         setLoading(false)
     }
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            fetchPdf()
-        }
-    }
-
     return (
         <div className="pdf-generation link-bar">
             <div
-                role="button"
-                tabIndex={0}
-                onKeyPress={(e) => handleKeyPress(e)}
                 className={
                     'link-bar_div non-decoration-link-text ' + (loading ? 'is-disabled' : null)
                 }
-                onClick={() => fetchPdf()}
+                role="button"
+                tabIndex={0}
+                onClick={fetchPdf}
+                onKeyDown={(e) => {
+                    e.key === 'Enter' && fetchPdf()
+                }}
                 target="_blank">
                 <span className="hover-text-container">
                     <div className="link-bar-flex-container">

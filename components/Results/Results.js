@@ -20,14 +20,13 @@ import { recordsPageStrings } from 'localization/translations'
 import { TIMEOUT_ERROR, DETAILS, ERROR_500, SESSION_EXPIRED } from 'constants/routes'
 import { useRouter } from 'next/router'
 import { removeSlashFromRoute } from 'helpers/index'
-import { checkCacheUnixTime } from 'helpers/auth'
+import { checkCacheUnixTime, uuidCookieReduxNotMatching } from 'helpers/auth'
 import { getUserToken, getUserTokenId, getUserTokenIdUnixExpiry } from 'helpers/cookieHelper'
 import { useCookies } from 'react-cookie'
 import { COOKIE_USER_TOKEN_KEY } from 'constants/index'
 import FilterExpander from 'components/Results/FilterExpander'
 import MonthDivider from 'components/Results/MonthDivider'
 import { mostRecentResultInMonth } from 'helpers/resultHelper'
-import { uuidCookieReduxNotMatching } from 'helpers/auth'
 import useEndUserSession from 'hooks/useEndUserSession'
 
 const Results = ({ showTestResults, showVaccinationResults, showExemptionResults }) => {
@@ -180,7 +179,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
 
     useEffect(() => {
         if (resultsTestData || resultsVaccinationData || resultsExemptionsData) {
-            var arr = []
+            let arr = []
             arr = filterStatus.vaccinations ? arr.concat(resultsVaccinationData['data']) : arr
             arr = filterStatus.tests ? arr.concat(resultsTestData['data']) : arr
             arr = filterStatus.exemptions ? arr.concat(resultsExemptionsData['data']) : arr
@@ -189,13 +188,13 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                 (value) => (value['sortDate'] = value.dateTimeOfTest || value.dateExemptionGiven)
             )
 
-            const sortedArray = arr.sort((a, b) => {
+            arr.sort((a, b) => {
                 return (
                     (b.sortDate ? new Date(b.sortDate) : new Date(b.date)) -
                     (a.sortDate ? new Date(a.sortDate) : new Date(a.date))
                 )
             })
-            setResultsData(sortedArray)
+            setResultsData(arr)
         }
     }, [resultsVaccinationData, resultsTestData, resultsExemptionsData, filterStatus])
 
@@ -357,19 +356,21 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
     }
 
     const buildResultsList = (data) => {
-        var monthsPrinted = []
-        var resultsList = data.map(function (value, index) {
+        let monthsPrinted = []
+        const resultsList = data.map(function (value, index) {
             const sortDate = new Date(value['sortDate'])
-            var printMonth = mostRecentResultInMonth(data, sortDate)
-            var dateString = sortDate.getMonth().toString() + sortDate.getFullYear().toString()
+            let printMonth = mostRecentResultInMonth(data, sortDate)
+            const dateString = sortDate.getMonth().toString() + sortDate.getFullYear().toString()
             if (monthsPrinted.includes(dateString)) {
                 printMonth = false
             }
-            if (printMonth == true) {
+            if (printMonth) {
                 monthsPrinted.push(dateString)
             }
+
             switch (value['api']) {
                 case 'test':
+                case 'recovery':
                     return (
                         <React.Fragment key={index}>
                             {printMonth ? <MonthDivider sortDate={sortDate} /> : null}
@@ -383,13 +384,6 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                             <VaccinationResultCard value={value} />
                         </React.Fragment>
                     )
-                case 'recovery':
-                    return (
-                        <React.Fragment key={index}>
-                            {printMonth ? <MonthDivider sortDate={sortDate} /> : null}
-                            <TestResultCard value={value} />
-                        </React.Fragment>
-                    )
                 case 'exemptions':
                     return (
                         <React.Fragment key={index}>
@@ -399,6 +393,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                     )
             }
         })
+
         setFetchingTestResults(false)
         return <div id="results-card-group">{resultsList}</div>
     }
@@ -437,6 +432,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                 <div className="nhsuk-checkboxes__item">
                     <input
                         className="nhsuk-checkboxes__input"
+                        data-testid={`filter-expander_filters_input-checkbox_${filterCategory}`}
                         id={filterCategory + '-checkbox-id'}
                         name={filterCategory}
                         type="checkbox"
@@ -445,6 +441,7 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                     />
                     <label
                         className="nhsuk-label nhsuk-checkboxes__label records-filter-checkbox-label"
+                        data-testid="filter-expander_filters_input-label"
                         htmlFor={filterCategory + '-checkbox-id'}>
                         {recordsPageStrings.filter[filterCategory]} ({numberOfRecordsWithinCategory}
                         )
@@ -455,7 +452,9 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
 
         return (
             <form>
-                <div className="nhsuk-form-group form-group-filters">
+                <div
+                    className="nhsuk-form-group form-group-filters"
+                    data-testid="filter-expander_filters">
                     <div className="nhsuk-checkboxes">
                         {filterCategoryCheckbox('exemptions')}
                         {filterCategoryCheckbox('vaccinations')}
@@ -489,10 +488,11 @@ const Results = ({ showTestResults, showVaccinationResults, showExemptionResults
                                 <span> - </span>
                                 <a
                                     className="show-all-link-button"
+                                    data-testid="show-all-link-button"
                                     role="button"
                                     tabIndex={0}
-                                    onClick={() => setAllFiltersActive()}
-                                    onKeyPress={(e) => e.key === 'Enter' && setAllFiltersActive()}>
+                                    onClick={setAllFiltersActive}
+                                    onKeyDown={(e) => e.key === 'Enter' && setAllFiltersActive()}>
                                     {recordsPageStrings.filter.showAll}
                                 </a>
                             </span>

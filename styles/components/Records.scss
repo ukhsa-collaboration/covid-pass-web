@@ -26,6 +26,9 @@
     &__vaccination-expanded {
         margin-top: 0px;
     }
+    .nhsuk-tag{
+        margin-bottom: 15px;
+    }
 }
 
 .results-loading-spinner-container {
@@ -113,12 +116,6 @@
     font-weight: 600 !important;
     margin-bottom: 10px;
     margin-top: 25px;
-}
-
-.record-card{
-    .nhsuk-tag{
-        margin-bottom: 15px;
-    }
 }
 
 .filter-expander {

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { trackPageView, trackEvent } from 'helpers/appInsights'
 import { gotoHomepage, isNhsAppNative } from 'helpers/isNhsApp'
+import { getInternalHref } from 'helpers/index'
 import { INDEX_PAGE } from 'constants/routes'
 import { invalidUserInfoStrings } from 'localization/translations'
 import { getLanguage } from 'helpers/userHelper'
@@ -38,9 +39,11 @@ const InvalidUserInfo = () => {
 
             <a
                 className="nhsuk-link nhsuk-link--no-visited-state"
-                href={INDEX_PAGE}
-                onKeyPress={(e) => e.key === 'Enter' && handleClick(e)}
-                onClick={handleClick}>
+                data-testid="invalid-user-info-href"
+                id="invalid-user-info-href"
+                onClick={handleClick}
+                onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
+                href={getInternalHref(INDEX_PAGE)}>
                 {invalidUserInfoStrings.linkText1}
             </a>
         </div>

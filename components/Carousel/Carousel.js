@@ -101,15 +101,21 @@ const Carousel = () => {
                             {slides.length > 0 &&
                                 slides.map((_, index) => (
                                     <div className="embla__slide" key={index}>
-                                        <div className="embla__slide__inner carousel-inner">
+                                        <div
+                                            className="embla__slide__inner carousel-inner"
+                                            data-testid="carousel-inner">
                                             <div className="carousel-qr-container">
-                                                <p className="nhsuk-u-margin-bottom-2 carousel-qr-container-head">
+                                                <p
+                                                    className="nhsuk-u-margin-bottom-2 carousel-qr-container-head"
+                                                    data-testid="carousel-qr-container-head">
                                                     {slides[index].tag === 'vaccination'
                                                         ? carouselStrings.vaccineHead
                                                         : carouselStrings.recoveredHead}
                                                 </p>
                                                 {getLanguage(user) === LANGUAGE_CODES.cy ? (
-                                                    <p className="nhsuk-hint bilingual-text nhsuk-u-margin-bottom-2 carousel-qr-container-head-bilingual">
+                                                    <p
+                                                        className="nhsuk-hint bilingual-text nhsuk-u-margin-bottom-2 carousel-qr-container-head-bilingual"
+                                                        data-testid="carousel-qr-container-head-bilingual">
                                                         {slides[index].tag === 'vaccination'
                                                             ? carouselStrings.vaccineHead__bilingual
                                                             : carouselStrings.recoveredHead__bilingual}

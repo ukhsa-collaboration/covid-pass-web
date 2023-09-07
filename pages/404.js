@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { trackPageView } from 'helpers/appInsights'
+import { trackPageView, trackEvent } from 'helpers/appInsights'
 import { INDEX_PAGE } from 'constants/routes'
 import { errorPageStrings } from 'localization/translations'
-import { trackEvent } from 'helpers/appInsights'
+import { getInternalHref } from 'helpers/index'
 import { useSelector } from 'react-redux'
 import { getLanguage } from 'helpers/userHelper'
 import Head from 'next/head'
@@ -37,10 +37,11 @@ const Custom404 = () => {
             </p>
             <a
                 className="nhsuk-link nhsuk-link--no-visited-state"
-                href={INDEX_PAGE}
-                id="fourHundredError-href"
-                onKeyPress={(e) => e.key === 'Enter' && handleClick(e)}
-                onClick={(e) => handleClick(e)}>
+                data-testid="four-hundred-error-href"
+                id="four-hundred-error-href"
+                onClick={(e) => handleClick(e)}
+                onKeyDown={(e) => e.key === 'Enter' && handleClick(e)}
+                href={getInternalHref(INDEX_PAGE)}>
                 {errorPageStrings.linkText1}
             </a>
         </div>
